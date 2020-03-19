@@ -1,104 +1,162 @@
 <template>
-  <div class="container">
-    <div v-for="item in 196" class="circleBox" v-bind:key="item">
-      <div class="shadow"></div>
-      <div class="circle"></div>
-    </div>
+  <div>
+    <canvas id="c" ref="c">
+    </canvas>
+    <audio src="../assets/don'tstop.mp3"></audio>
   </div>
 </template>
 
 <script>
-// import gsap from "gsap";
+const circleW = 50,
+      circleH = 50,
+      circleBoxW = 100,
+      circleBoxH = 100;
+
+var rAF;
+const FRAME = 15;
+// var audioCtx, analyser;
+
+/* x = null;
+* t = currentTime;
+* b = begin; / startvalue
+* c = end; / change in value
+* d = distance
+*/
+function easeInCubic(x,t,b,c,d){
+    return -c *(t/=d)*(t-2) + b;
+}
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
+  mounted() {
+    this.$refs.c.width = window.innerWidth;
+    this.$refs.c.height = window.innerHeight;
+    this.start();
+    // audioCtx = new AudioContext();
+    // analyser = audioCtx.createAnalyser();
+  },
+  destroyed() {
+    cancelAnimationFrame(rAF);
+  },
   methods: {
-    move: function() {
-      // gsap.to()
+    start: function() {
+      var row = window.innerHeight / circleW;
+      var col = window.innerWidth / circleH;
+      // var row = 50;
+      // var col = 50;
+      var ctx = this.$refs.c.getContext('2d');
+      function CircleItem(x, y, bx, by, r, w) {
+        this.oriX = x;
+        this.oriY = y;
+        this.bx = bx;
+        this.by = by;
+        this.w = w;
+        this.r = r;
+        this.way = -1;
+        this.first = {
+          x: x,
+          y: y,
+        };
+        this.second = {
+          x: x,
+          y: y,
+        };
+        // first circle update
+        this.update = function(currentTime) {
+          this.firstUpdate(currentTime);
+          this.secondUpdate(currentTime);
+        }
+
+        this.firstUpdate = function(c) {
+          if (this.way < 0) {
+            this.first.x = easeInCubic(c/FRAME, c, this.oriX, -10, FRAME);
+            this.first.y = easeInCubic(c/FRAME, c, this.oriY, -10, FRAME);
+            (this.first.x <= this.oriX-10 ? this.way = 1 : null);
+          } else {
+            this.first.x = easeInCubic(c/FRAME, c, this.oriX-10, 10, FRAME);
+            this.first.y = easeInCubic(c/FRAME, c, this.oriY-10, 10, FRAME);
+            (this.first.x >= this.oriX ? this.way = -1 : null);
+          }
+        }
+
+        this.secondUpdate = function() {
+            this.second.x = this.oriX + this.oriX - this.first.x;
+            this.second.y = this.oriY + this.oriY - this.first.y;
+        }
+      }
+
+      var circlePosition = [];
+      for(var i = 0 ; i < col; i++) {
+        circlePosition[i] = [];
+        for(var j =0; j < row; j++) {
+          circlePosition[i].push(new CircleItem(
+                              j*circleBoxW + circleBoxW/2,
+                              i*circleBoxH + circleBoxW/2,
+                              j*circleBoxW,
+                              i*circleBoxH,
+                              circleW / 2,
+                              circleBoxW));
+        }
+      }
+      // console.log(circlePosition);
+      // var then = Date.now(),
+      //     elapsed,
+      //     now,
+      //     fpsInterval = 10,
+      var frame = 0;
+      function draw() {
+        // now = Date.now();
+        // elapsed = now - then;
+        // if (elapsed < fpsInterval) {
+        //   rAF = requestAnimationFrame(draw);
+        //   return;
+        // }
+        // then = now;
+
+        ctx.fillStyle = "#81c9c8";
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        // ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+        for(var i = 0 ; i < col; i++) {
+          for(var j =0; j < row; j++) {
+            ctx.beginPath();
+            ctx.arc(circlePosition[i][j].second.x, circlePosition[i][j].second.y, circlePosition[i][j].r-1, 0, 2*Math.PI);
+            ctx.fillStyle = "#369098";
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(circlePosition[i][j].first.x, circlePosition[i][j].first.y, circlePosition[i][j].r, 0, 2*Math.PI);
+            ctx.fillStyle = "#e44d42";
+            ctx.fill();
+            // ctx.rect(j*circleBoxW, i*circleBoxH, circleBoxW, circleBoxH);
+            // ctx.stroke();
+            circlePosition[i][j].update(frame);
+          }
+        }
+        // console.log(frame);
+        frame++;
+        if (frame > FRAME) frame = 0;
+        rAF = requestAnimationFrame(draw);
+      }
+      rAF = requestAnimationFrame(draw);
+      
+
     }
   },
-  mounted() {
-    this.move();
-  },
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-  background: #81c9c8;
+#c {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  /* background-color: "#81c9c8"; */
 }
-.circleBox {
-  /* display: flex; */
-  position: relative;
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  /* justify-content: center; */
-}
-.circle {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 80px;
-  height: 80px;
-  border-radius:50%;
-  /* background: #e44d42; */
-  border: 1px solid red;
-  animation: moveUp 2s infinite;
-  animation-timing-function: ease-in;
-}
-.shadow {
-  position: absolute;
-  left: 12px;
-  top: 12px;
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  /* background: #369098; */
-  border: 1px solid;
-  /* animation: moveDown 2s infinite; */
-  /* animation-timing-function: ease-in; */
-}
-
-.up {
-  transform: translate(-10px);
-}
-
-@keyframes moveUp {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-10px, -10px)
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-@keyframes moveDown {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(10px, 10px)
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-
-
 </style>
