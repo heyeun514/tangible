@@ -2,17 +2,20 @@
   <div>
     <canvas id="c" ref="c">
     </canvas>
+    <audio src="../assets/don'tstop.mp3"></audio>
   </div>
 </template>
 
 <script>
 const circleW = 50,
-      // circleH = 50,
+      circleH = 50,
       circleBoxW = 100,
       circleBoxH = 100;
 
 var rAF;
 const FRAME = 15;
+// var audioCtx, analyser;
+
 /* x = null;
 * t = currentTime;
 * b = begin; / startvalue
@@ -31,16 +34,18 @@ export default {
     this.$refs.c.width = window.innerWidth;
     this.$refs.c.height = window.innerHeight;
     this.start();
+    // audioCtx = new AudioContext();
+    // analyser = audioCtx.createAnalyser();
   },
   destroyed() {
     cancelAnimationFrame(rAF);
   },
   methods: {
     start: function() {
-      // var row = window.innerHeight / circleW;
-      // var col = window.innerWidth / circleH;
-      var row = 50;
-      var col = 50;
+      var row = window.innerHeight / circleW;
+      var col = window.innerWidth / circleH;
+      // var row = 50;
+      // var col = 50;
       var ctx = this.$refs.c.getContext('2d');
       function CircleItem(x, y, bx, by, r, w) {
         this.oriX = x;
@@ -110,9 +115,9 @@ export default {
         // }
         // then = now;
 
-        // ctx.fillStyle = "#81c9c8";
-        // ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        ctx.fillStyle = "#81c9c8";
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        // ctx.clearRect(0, 0, innerWidth, innerHeight);
 
         for(var i = 0 ; i < col; i++) {
           for(var j =0; j < row; j++) {
@@ -152,5 +157,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+  /* background-color: "#81c9c8"; */
 }
 </style>
