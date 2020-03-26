@@ -2,20 +2,20 @@
   <div>
     <canvas id="c" ref="c">
     </canvas>
-    <audio src="../assets/don'tstop.mp3"></audio>
+    <audio ref="music" src="../assets/don'tstop.mp3" controls></audio>
+    <button v-on:click="playMusic">play</button>
   </div>
 </template>
-
 <script>
 const circleW = 50,
       circleH = 50,
       circleBoxW = 100,
       circleBoxH = 100;
-
 var rAF;
-const FRAME = 15;
-// var audioCtx, analyser;
-
+const FRAME = 256;
+var audioCtx,
+  analyser,
+  dataArray;
 /* x = null;
 * t = currentTime;
 * b = begin; / startvalue
@@ -34,18 +34,31 @@ export default {
     this.$refs.c.width = window.innerWidth;
     this.$refs.c.height = window.innerHeight;
     this.start();
-    // audioCtx = new AudioContext();
-    // analyser = audioCtx.createAnalyser();
+    audioCtx = new AudioContext();
   },
   destroyed() {
     cancelAnimationFrame(rAF);
   },
   methods: {
+    playMusic: function() {
+      var audio = this.$refs.music;
+      console.log(audio.play());
+      // var src = audioCtx.createMediaElementSource(audio);
+      // analyser = audioCtx.createAnalyser();
+      // src.connect(analyser);
+      // analyser.connect(audioCtx.destination);
+      // analyser.fftSize = FRAME;
+
+      // var bufferLength = analyser.frequencyBinCount;
+      // console.log(bufferLength);
+
+      // dataArray = new Uint8Array(bufferLength);
+    },
     start: function() {
-      var row = window.innerHeight / circleW;
-      var col = window.innerWidth / circleH;
-      // var row = 50;
-      // var col = 50;
+      // var row = window.innerHeight / circleW;
+      // var col = window.innerWidth / circleH;
+      var row = 10;
+      var col = 10;
       var ctx = this.$refs.c.getContext('2d');
       function CircleItem(x, y, bx, by, r, w) {
         this.oriX = x;
@@ -100,49 +113,44 @@ export default {
                               circleBoxW));
         }
       }
-      // console.log(circlePosition);
-      // var then = Date.now(),
-      //     elapsed,
-      //     now,
-      //     fpsInterval = 10,
-      var frame = 0;
+      // var frame = 0;
       function draw() {
-        // now = Date.now();
-        // elapsed = now - then;
-        // if (elapsed < fpsInterval) {
-        //   rAF = requestAnimationFrame(draw);
-        //   return;
-        // }
-        // then = now;
-
+        if (analyser) {
+          analyser.getByteFrequencyData(dataArray);
+          console.log(dataArray[0]);
+        }
         ctx.fillStyle = "#81c9c8";
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-        // ctx.clearRect(0, 0, innerWidth, innerHeight);
 
         for(var i = 0 ; i < col; i++) {
           for(var j =0; j < row; j++) {
+            var index = i*(row-1)+ j;
+            // console.log('index=', index);
             ctx.beginPath();
-            ctx.arc(circlePosition[i][j].second.x, circlePosition[i][j].second.y, circlePosition[i][j].r-1, 0, 2*Math.PI);
+            ctx.arc(circlePosition[i][j].second.x,
+                  circlePosition[i][j].second.y,
+                  circlePosition[i][j].r-1,
+                  0, 2*Math.PI);
             ctx.fillStyle = "#369098";
             ctx.fill();
 
             ctx.beginPath();
-            ctx.arc(circlePosition[i][j].first.x, circlePosition[i][j].first.y, circlePosition[i][j].r, 0, 2*Math.PI);
+            ctx.arc(circlePosition[i][j].first.x,
+                    circlePosition[i][j].first.y,
+                    circlePosition[i][j].r,
+                    0, 2*Math.PI);
             ctx.fillStyle = "#e44d42";
             ctx.fill();
-            // ctx.rect(j*circleBoxW, i*circleBoxH, circleBoxW, circleBoxH);
-            // ctx.stroke();
-            circlePosition[i][j].update(frame);
+            var d;
+            d = (analyser ? dataArray[index] : 0);
+            circlePosition[i][j].update(d);
           }
         }
-        // console.log(frame);
-        frame++;
-        if (frame > FRAME) frame = 0;
+        // frame++;
+        // if (frame > FRAME) frame = 0;
         rAF = requestAnimationFrame(draw);
       }
       rAF = requestAnimationFrame(draw);
-      
-
     }
   },
 
@@ -158,5 +166,14 @@ export default {
   width: 100%;
   height: 100%;
   /* background-color: "#81c9c8"; */
+}
+
+button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background-color: white;
 }
 </style>
