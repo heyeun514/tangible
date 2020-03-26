@@ -15,7 +15,8 @@ var rAF;
 const FRAME = 256;
 var audioCtx,
   analyser,
-  dataArray;
+  dataArray,
+  parseArray;
 /* x = null;
 * t = currentTime;
 * b = begin; / startvalue
@@ -25,6 +26,9 @@ var audioCtx,
 function easeInCubic(x,t,b,c,d){
     return -c *(t/=d)*(t-2) + b;
 }
+function linear(x,t,b,c,d) {
+    return b+c*x;
+}
 export default {
   name: 'HelloWorld',
   props: {
@@ -33,8 +37,6 @@ export default {
   mounted() {
     this.$refs.c.width = window.innerWidth;
     this.$refs.c.height = window.innerHeight;
-    this.start();
-    audioCtx = new AudioContext();
   },
   destroyed() {
     cancelAnimationFrame(rAF);
@@ -42,23 +44,30 @@ export default {
   methods: {
     playMusic: function() {
       var audio = this.$refs.music;
-      console.log(audio.play());
-      // var src = audioCtx.createMediaElementSource(audio);
-      // analyser = audioCtx.createAnalyser();
-      // src.connect(analyser);
-      // analyser.connect(audioCtx.destination);
-      // analyser.fftSize = FRAME;
+      audio.play();
+      audioCtx = new AudioContext();
+      var src = audioCtx.createMediaElementSource(audio);
+      analyser = audioCtx.createAnalyser();
+      src.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      analyser.fftSize = FRAME;
 
-      // var bufferLength = analyser.frequencyBinCount;
-      // console.log(bufferLength);
+      var bufferLength = analyser.frequencyBinCount;
+      console.log(bufferLength);
 
-      // dataArray = new Uint8Array(bufferLength);
+      dataArray = new Uint8Array(bufferLength);
+      parseArray = new Array(bufferLength);
+      for (var i=0; i<bufferLength; i++) {
+        parseArray[i] = 0;
+      }
+      this.start();
+
     },
     start: function() {
       // var row = window.innerHeight / circleW;
       // var col = window.innerWidth / circleH;
-      var row = 10;
-      var col = 10;
+      var row = 11;
+      var col = 11;
       var ctx = this.$refs.c.getContext('2d');
       function CircleItem(x, y, bx, by, r, w) {
         this.oriX = x;
@@ -84,12 +93,12 @@ export default {
 
         this.firstUpdate = function(c) {
           if (this.way < 0) {
-            this.first.x = easeInCubic(c/FRAME, c, this.oriX, -10, FRAME);
-            this.first.y = easeInCubic(c/FRAME, c, this.oriY, -10, FRAME);
-            (this.first.x <= this.oriX-10 ? this.way = 1 : null);
+            this.first.x = linear(c/FRAME, c, this.oriX, -15, FRAME);
+            this.first.y = linear(c/FRAME, c, this.oriY, -15, FRAME);
+            (this.first.x <= this.oriX-15 ? this.way = 1 : null);
           } else {
-            this.first.x = easeInCubic(c/FRAME, c, this.oriX-10, 10, FRAME);
-            this.first.y = easeInCubic(c/FRAME, c, this.oriY-10, 10, FRAME);
+            this.first.x = linear(c/FRAME, c, this.oriX-15, 15, FRAME);
+            this.first.y = linear(c/FRAME, c, this.oriY-15, 15, FRAME);
             (this.first.x >= this.oriX ? this.way = -1 : null);
           }
         }
@@ -117,15 +126,14 @@ export default {
       function draw() {
         if (analyser) {
           analyser.getByteFrequencyData(dataArray);
-          console.log(dataArray[0]);
         }
+
         ctx.fillStyle = "#81c9c8";
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
         for(var i = 0 ; i < col; i++) {
           for(var j =0; j < row; j++) {
             var index = i*(row-1)+ j;
-            // console.log('index=', index);
             ctx.beginPath();
             ctx.arc(circlePosition[i][j].second.x,
                   circlePosition[i][j].second.y,
@@ -133,7 +141,6 @@ export default {
                   0, 2*Math.PI);
             ctx.fillStyle = "#369098";
             ctx.fill();
-
             ctx.beginPath();
             ctx.arc(circlePosition[i][j].first.x,
                     circlePosition[i][j].first.y,
@@ -142,15 +149,23 @@ export default {
             ctx.fillStyle = "#e44d42";
             ctx.fill();
             var d;
-            d = (analyser ? dataArray[index] : 0);
+            // d = (analyser ? dataArray[index] : 0);
+            console.log(dataArray[0], parseArray[0]);
+            if (dataArray[index] > (parseArray[index] + 1) * 1.2) {
+              parseArray[index] = dataArray[index];
+            }
+            d = parseArray[index];
             circlePosition[i][j].update(d);
+
+            parseArray[index] -= 2; 
+            // // console.log(d);
+            if (parseArray[index] < 0) parseArray[index] = 0;
           }
         }
-        // frame++;
-        // if (frame > FRAME) frame = 0;
         rAF = requestAnimationFrame(draw);
       }
-      rAF = requestAnimationFrame(draw);
+      this.$refs.music.play();
+      draw();
     }
   },
 
