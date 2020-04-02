@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Project 21F"/>
+    <!-- <HelloWorld msg="Project 21F"/> -->
+    <Today></Today>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import Sound from './components/Sound.vue'
+import Today from './components/Today.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // Sound
+    Today
   }
 }
 </script>
