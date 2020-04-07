@@ -11,8 +11,10 @@
     "core-js": "^3.6.4",
     "gsap": "^3.2.4",
     "matter-js": "^0.14.2",
+    "pathseg": "^1.2.0",
     "poly-decomp": "^0.3.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",

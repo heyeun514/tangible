@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    <!-- <HelloWorld msg="Project 21F"/> -->
-    <Today></Today>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import Sound from './components/Sound.vue'
-import Today from './components/Today.vue'
+import Home from './views/Home.vue'
 import decomp from 'poly-decomp';
+import 'pathseg';
 
 export default {
   name: 'App',
   components: {
-    // Sound
-    Today
+    Home
   },
   created() {
     window.decomp = decomp;
@@ -24,10 +22,15 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: NotoSans_Regular;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+@font-face {
+  font-family: 'NotoSans_Regular';
+  src: url('./assets/Noto_Sans/NotoSans-Regular.ttf');
 }
 </style>
