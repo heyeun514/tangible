@@ -1,5 +1,8 @@
 <template>
-    <div class="emotionSelector" @mouseover="startLoop" @mouseout="stopLoop">
+    <div class="emotionSelector" 
+        @mouseover="startLoop"
+        @mouseout="stopLoop"
+        @click="onClick">
         <!-- <div v-for="(item, index) in imgList"
             v-bind:key="index"
             class="emotionItem">
@@ -26,6 +29,7 @@ export default {
         return {
             text: this.defaultText,
             imgSrc: '',
+            curColor: '',
         }
     },
     watch: {
@@ -41,8 +45,20 @@ export default {
         }
     },
     methods: {
+        onClick() {
+            console.log('onClick');
+            clearInterval(timer);
+            // this.$router.push({
+            //     name: '',
+            // })
+            this.props.clickItem({
+                emotion: this.text,
+                color: this.curColor
+            });
+        },
         changeImageColor(color) {
             console.log('color', color);
+            this.curColor = color;
             var item = this.imgCanvas;
             var canvas = item.canvas;
             var ctx = canvas.getContext('2d');
@@ -101,6 +117,6 @@ export default {
 .eImg {
     width: 100px;
     height: 100px;
-    margin: 124px 53px 74px 53px;
+    /* margin: 124px 53px 74px 53px; */
 }
 </style>

@@ -37,11 +37,11 @@ export default {
             loadingCount: 0,
             start: false,
             emotionTextList: [
-                ['#기쁨', '#행복한', '#열광하는', '#좋아하는', '#설레는', '#사랑하는'],
-                ['#슬픔', '#아픈', '#외로운', '#헛헛한', '#을씨년스러운', '#적적한'],
-                ['#분노', '#열받는', '#절규', '#절망', '#짜증나는', '#불만스러운'],
-                ['#평온', '#잔잔한', '#평화로운', '#안락한', '#소소한', '#차분한'],
-                ['#걱정', '#불안한', '#손톱딱딱', '#머리아픈', '#생각이많은', '#잠이오지않는'],
+                ['기쁨', 'Happy', 'Enthusiastic', 'Exciting', 'Contented', 'Joyful'],
+                ['슬픔', 'Sad', 'Sick', 'Lonely', 'Gloomy', 'Depressed'],
+                ['분노', 'Angry', 'Mad', 'Annoying', 'Irritating', 'Unsatisfactory'],
+                ['안정', 'Comfortable', 'Calm', 'Peaceful', 'Boring', 'Serene'],
+                ['걱정', 'Worried', 'Nervous', 'Thoughtful', 'Restless', 'Anxious']
             ],
             emotionColors: [
                 ['#FB927E', '#FCA383', '#FCB387', '#FEC68D', '#FFD592'],
@@ -111,7 +111,18 @@ export default {
 .iconContainer {
     /* position: absolute; */
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
 }
+
+@media (min-width: 800px)
+{
+    .iconContainer {
+        width: 800px;
+    }
+}
+
 
 .emotion {
     position: absolute;
