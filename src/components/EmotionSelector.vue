@@ -23,7 +23,8 @@ export default {
             'colorList',
             'defaultText',
             'imgCanvas',
-            'colors'
+            'colors',
+            'clickItem'
             ],
     data() {
         return {
@@ -46,12 +47,12 @@ export default {
     },
     methods: {
         onClick() {
-            console.log('onClick');
+            console.log('onClick', this.text, this.curColor);
             clearInterval(timer);
             // this.$router.push({
             //     name: '',
             // })
-            this.props.clickItem({
+            this.clickItem({
                 emotion: this.text,
                 color: this.curColor
             });
@@ -72,7 +73,7 @@ export default {
             this.imgSrc = canvas.toDataURL();
         },
         startLoop() {
-            console.log('start loop');
+            // console.log('start loop');
             var that = this;
             var count = 1;
             timer = setInterval(() => {

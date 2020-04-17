@@ -4,6 +4,7 @@
         <div class="iconContainer">
             <EmotionSelector 
                 v-for="(item, index) in emotionTextList"
+                v-bind:clickItem="clickEmotion"
                 v-bind:start="start"
                 v-bind:key="index"
                 v-bind:textList="item"
@@ -11,9 +12,10 @@
                 v-bind:colorList="emotionColors[index]"
                 v-bind:imgCanvas="imgCanvas[index]"></EmotionSelector>
         </div>
-        <!-- <Emotion class="emotion"
+        <Emotion class="emotion"
+                v-if="showEmotion"
                 v-bind:start="start"
-                v-bind:imgCanvas="imgCanvas"></Emotion> -->
+                v-bind:imgCanvas="imgCanvas"></Emotion>
     </div>
 </template>
 <script>
@@ -37,11 +39,11 @@ export default {
             loadingCount: 0,
             start: false,
             emotionTextList: [
-                ['기쁨', 'Happy', 'Enthusiastic', 'Exciting', 'Contented', 'Joyful'],
-                ['슬픔', 'Sad', 'Sick', 'Lonely', 'Gloomy', 'Depressed'],
-                ['분노', 'Angry', 'Mad', 'Annoying', 'Irritating', 'Unsatisfactory'],
-                ['안정', 'Comfortable', 'Calm', 'Peaceful', 'Boring', 'Serene'],
-                ['걱정', 'Worried', 'Nervous', 'Thoughtful', 'Restless', 'Anxious']
+                ['Happy', 'Enthusiastic', 'Exciting', 'Contented', 'Joyful'],
+                ['Sad', 'Sick', 'Lonely', 'Gloomy', 'Depressed'],
+                ['Angry', 'Mad', 'Annoying', 'Irritating', 'Unsatisfactory'],
+                ['Comfortable', 'Calm', 'Peaceful', 'Boring', 'Serene'],
+                ['Worried', 'Nervous', 'Thoughtful', 'Restless', 'Anxious']
             ],
             emotionColors: [
                 ['#FB927E', '#FCA383', '#FCB387', '#FEC68D', '#FFD592'],
@@ -50,11 +52,12 @@ export default {
                 ['#8EE3CA', '#9CE4C2', '#AAE4BA', '#BAE5B1', '#C8E6A9'],
                 ['#3A2F45', '#3D384F', '#41425B', '#454C67', '#485672']
             ],
+            showEmotion: false,
         }
     },
     watch: {
         loadingCount(newVal) {
-            console.log('loadingCount ', newVal);
+            // console.log('loadingCount ', newVal);
             if (newVal >= this.iconImgs.length) {
                 this.start = true;
             }
@@ -84,6 +87,13 @@ export default {
                 that.loadingCount++;
             }
             img.src = require(`@/assets/${fileName}`);
+        },
+        clickEmotion() {
+            console.log('click emotion');
+            this.showEmotion = !this.showEmotion;
+            // console.log(this.showEmotion);
+            // animation
+            
         }
     },
     mounted() {
@@ -126,7 +136,7 @@ export default {
 
 .emotion {
     position: absolute;
-    top: 200px;
+    top: 1000px;
     /* flex: 4; */
 }
 </style>

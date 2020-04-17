@@ -216,6 +216,9 @@ export default {
     },
     mounted() {
         console.log('emotion mounted', this.start);
+        if (this.start) {
+            this.load();
+        }
     },
 }
 </script>

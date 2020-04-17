@@ -9,4 +9,5 @@ export default new VueRouter({
 routes: [
     { path: '/', name: 'home', component:  Home},
     { path: '/yourday', name: 'yourDay', component:  YourDay}
+    // { path: '/yourday', name: 'yourDay', component:  YourDay}
 ]});
