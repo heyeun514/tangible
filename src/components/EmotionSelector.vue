@@ -24,7 +24,8 @@ export default {
             'defaultText',
             'imgCanvas',
             'colors',
-            'clickItem'
+            'clickItem',
+            'index'
             ],
     data() {
         return {
@@ -53,7 +54,7 @@ export default {
             //     name: '',
             // })
             this.clickItem({
-                emotion: this.text,
+                index: this.index,
                 color: this.curColor
             });
         },

@@ -6,16 +6,21 @@
                 v-for="(item, index) in emotionTextList"
                 v-bind:clickItem="clickEmotion"
                 v-bind:start="start"
+                v-bind:index="index"
                 v-bind:key="index"
                 v-bind:textList="item"
                 v-bind:defaultText="item[0]"
                 v-bind:colorList="emotionColors[index]"
                 v-bind:imgCanvas="imgCanvas[index]"></EmotionSelector>
         </div>
-        <Emotion class="emotion"
-                v-if="showEmotion"
+        <div class="emotionContainer">
+        <Emotion ref="emotionBuilding"
+                v-show="showEmotion"
                 v-bind:start="start"
-                v-bind:imgCanvas="imgCanvas"></Emotion>
+                v-bind:emotionColors="emotionColors"
+                v-bind:imgCanvas="imgCanvas">
+        </Emotion>
+        </div>
     </div>
 </template>
 <script>
@@ -88,12 +93,16 @@ export default {
             }
             img.src = require(`@/assets/${fileName}`);
         },
-        clickEmotion() {
+        clickEmotion(data) {
             console.log('click emotion');
-            this.showEmotion = !this.showEmotion;
-            // console.log(this.showEmotion);
-            // animation
-            
+            this.showEmotion = true;
+            var location = window.innerHeight;
+            if (this.showEmotion)
+                window.scrollTo({top: location, behavior: 'smooth'});
+            var that = this;
+            setTimeout(() => {
+                this.$refs.emotionBuilding.addItem(data.index, data.color);
+            }, 500);
         }
     },
     mounted() {
@@ -115,6 +124,7 @@ export default {
 
 .yourday > span {
     font-size: 72px;
+    margin-bottom: 30px;
     /* flex: 1; */
 }
 
@@ -134,9 +144,11 @@ export default {
 }
 
 
-.emotion {
+.emotionContainer {
     position: absolute;
-    top: 1000px;
+    top: 100%;
+    width: 100%;
+    height: 100%;
     /* flex: 4; */
 }
 </style>
