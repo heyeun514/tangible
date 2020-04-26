@@ -2,7 +2,7 @@
   <div>
     <canvas id="c" ref="c">
     </canvas>
-    <audio ref="music" src="../assets/don'tstop.mp3" controls></audio>
+    <audio ref="music" src="../assets/Tupelo_Train.mp3" controls></audio>
     <button v-on:click="playMusic">play</button>
   </div>
 </template>
@@ -16,7 +16,8 @@ const FRAME = 256;
 var audioCtx,
   analyser,
   dataArray,
-  parseArray;
+  parseArray,
+  orderArray;
 /* x = null;
 * t = currentTime;
 * b = begin; / startvalue
@@ -29,6 +30,21 @@ function easeInCubic(x,t,b,c,d){
 function linear(x,t,b,c,d) {
     return b+c*x;
 }
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+}
+function shuffle(a) { 
+  var j, x, i;
+  for (i = a.length; i; i -= 1) {
+    j = Math.floor(Math.random() * i); 
+    x = a[i - 1]; 
+    a[i - 1] = a[j]; 
+    a[j] = x;
+  }
+ }
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -56,7 +72,15 @@ export default {
       console.log(bufferLength);
 
       dataArray = new Uint8Array(bufferLength);
+      orderArray = new Array(bufferLength);
       parseArray = new Array(bufferLength);
+
+      for(var i=0; i<bufferLength; i++) {
+        orderArray[i] = i;
+      }
+      shuffle(orderArray);
+      console.log('orderArray', orderArray);
+
       for (var i=0; i<bufferLength; i++) {
         parseArray[i] = 0;
       }
@@ -93,6 +117,7 @@ export default {
 
         this.firstUpdate = function(c) {
           if (this.way < 0) {
+            this.first.color = linear(c/FRAME, c, 70, -32, FRAME);
             this.first.x = linear(c/FRAME, c, this.oriX, -15, FRAME);
             this.first.y = linear(c/FRAME, c, this.oriY, -15, FRAME);
             (this.first.x <= this.oriX-15 ? this.way = 1 : null);
@@ -134,6 +159,7 @@ export default {
         for(var i = 0 ; i < col; i++) {
           for(var j =0; j < row; j++) {
             var index = i*(row-1)+ j;
+            // shadow
             ctx.beginPath();
             ctx.arc(circlePosition[i][j].second.x,
                   circlePosition[i][j].second.y,
@@ -141,18 +167,20 @@ export default {
                   0, 2*Math.PI);
             ctx.fillStyle = "#369098";
             ctx.fill();
+
+            // object
             ctx.beginPath();
             ctx.arc(circlePosition[i][j].first.x,
                     circlePosition[i][j].first.y,
                     circlePosition[i][j].r,
                     0, 2*Math.PI);
-            ctx.fillStyle = "#e44d42";
+            ctx.fillStyle = "hsl(4, 75%, " + circlePosition[i][j].first.color + "%)";
             ctx.fill();
             var d;
             // d = (analyser ? dataArray[index] : 0);
-            console.log(dataArray[0], parseArray[0]);
-            if (dataArray[index] > (parseArray[index] + 1) * 1.2) {
-              parseArray[index] = dataArray[index];
+            console.log(dataArray[orderArray[index]], parseArray[0]);
+            if (dataArray[orderArray[index]] > (parseArray[index] + 1) * 1.2) {
+              parseArray[index] = dataArray[orderArray[index]];
             }
             d = parseArray[index];
             circlePosition[i][j].update(d);

@@ -1,5 +1,6 @@
 <template>
     <div class="yourday">
+        <button class='menuBtn'>menu</button>
         <span>"How was your day?"</span>
         <div class="iconContainer">
             <EmotionSelector 
@@ -112,6 +113,12 @@ export default {
 }
 </script>
 <style>
+.menuBtn {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
 .yourday {
     position: absolute;
     width: 100%;
@@ -124,7 +131,7 @@ export default {
 
 .yourday > span {
     font-size: 72px;
-    margin-bottom: 30px;
+    margin-bottom: 124px;
     /* flex: 1; */
 }
 

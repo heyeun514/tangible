@@ -153,7 +153,7 @@ export default {
 
             
             // temp items
-            var stack = Composites.stack(250, 0, 2, 2, 0, 0, function(x, y) {
+            var stack = Composites.stack(250, 0, 10, 20, 0, 0, function(x, y) {
                 var num = Math.round(Common.random(0, 4));
 
                 var item = that.createItem(num, x, y);
@@ -268,8 +268,8 @@ export default {
                 }
         },
         addItem(num, color) {
-            var item = this.createItem(num, innerWidth/4, 0, color);
-            Matter.Body.applyForce(item, {x: item.position.x, y:item.position.y}, {x: -0.05, y: 0})
+            var item = this.createItem(num, Common.random(0, innerWidth), 0, color);
+            // Matter.Body.applyForce(item, {x: item.position.x, y:item.position.y}, {x: -0.05, y: 0})
             myBodies.push(item);
             this.itemData.push({
                     id: item.id,

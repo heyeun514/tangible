@@ -119,6 +119,7 @@ export default {
 .eImg {
     width: 100px;
     height: 100px;
+    margin-bottom: 74px;
     /* margin: 124px 53px 74px 53px; */
 }
 </style>
