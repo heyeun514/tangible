@@ -1,5 +1,12 @@
 
-var easing = {
+/* x = null;
+* t = currentTime;
+* b = begin; / startvalue
+* c = end; / change in value
+* d = distance
+*/
+
+export default {
     linear: function(x,t,b,c,d) {
         return b+c*x;
     },
@@ -133,5 +140,3 @@ var easing = {
         return $.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
     }
 }
-
-export default easing;

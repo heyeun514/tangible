@@ -2,7 +2,7 @@
   <div>
     <canvas id="c" ref="c">
     </canvas>
-    <audio ref="music" src="../assets/Tupelo_Train.mp3" controls></audio>
+    <audio ref="music" src="../assets/don'tstop.mp3" controls></audio>
     <button v-on:click="playMusic">play</button>
   </div>
 </template>
@@ -18,18 +18,8 @@ var audioCtx,
   dataArray,
   parseArray,
   orderArray;
-/* x = null;
-* t = currentTime;
-* b = begin; / startvalue
-* c = end; / change in value
-* d = distance
-*/
-function easeInCubic(x,t,b,c,d){
-    return -c *(t/=d)*(t-2) + b;
-}
-function linear(x,t,b,c,d) {
-    return b+c*x;
-}
+
+import easing from "@/utils/easing.js";
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -117,13 +107,13 @@ export default {
 
         this.firstUpdate = function(c) {
           if (this.way < 0) {
-            this.first.color = linear(c/FRAME, c, 70, -32, FRAME);
-            this.first.x = linear(c/FRAME, c, this.oriX, -15, FRAME);
-            this.first.y = linear(c/FRAME, c, this.oriY, -15, FRAME);
+            this.first.color = easing.linear(c/FRAME, c, 70, -32, FRAME);
+            this.first.x = easing.linear(c/FRAME, c, this.oriX, -15, FRAME);
+            this.first.y = easing.linear(c/FRAME, c, this.oriY, -15, FRAME);
             (this.first.x <= this.oriX-15 ? this.way = 1 : null);
           } else {
-            this.first.x = linear(c/FRAME, c, this.oriX-15, 15, FRAME);
-            this.first.y = linear(c/FRAME, c, this.oriY-15, 15, FRAME);
+            this.first.x = easing.linear(c/FRAME, c, this.oriX-15, 15, FRAME);
+            this.first.y = easing.linear(c/FRAME, c, this.oriY-15, 15, FRAME);
             (this.first.x >= this.oriX ? this.way = -1 : null);
           }
         }
@@ -178,7 +168,7 @@ export default {
             ctx.fill();
             var d;
             // d = (analyser ? dataArray[index] : 0);
-            console.log(dataArray[orderArray[index]], parseArray[0]);
+            // console.log(dataArray[orderArray[index]], parseArray[0]);
             if (dataArray[orderArray[index]] > (parseArray[index] + 1) * 1.2) {
               parseArray[index] = dataArray[orderArray[index]];
             }

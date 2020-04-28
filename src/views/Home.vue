@@ -1,8 +1,12 @@
 <template>
   <div class="home">
     <span class="title">21F</span>
-    <Cong title="How was your day?" path="yourDay"></Cong>
-    <Cong title="Sound" path="sound"></Cong>
+    <div class="cong-container">
+      <Cong title="How was your day?" path="yourDay"></Cong>
+      <Cong title="Sound" path="sound"></Cong>
+      <Cong title="Sound2" path="sound2"></Cong>
+      <Cong title="Fractal" path="fractal"></Cong>
+    </div>
   </div>
 </template>
 
@@ -19,12 +23,13 @@ export default {
 }
 </script>
 <style>
-.home {
+.cong-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .title {
-  font-size: 10%;
+  font-size: 100px;
 }
 </style>
 
