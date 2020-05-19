@@ -5,7 +5,7 @@
             v-bind:key="index"
             class="sound-item">
         </div>
-        <audio ref="music" src="../assets/needed.mp3" controls></audio>
+        <audio ref="music" src="../assets/audio/needed.mp3" controls></audio>
         <button class="playBtn" v-on:click="playMusic">play</button>
     </div>
 </template>
