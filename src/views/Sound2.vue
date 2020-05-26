@@ -68,38 +68,21 @@ export default Vue.extend({
             console.log('soundItem', soundItems.length);
             var fr = 0;
             function animation() {
-                // console.log('a');
-                // fr++;
-                // if (fr < 0) return;
-                // else if (fr >= 10)
-                //     fr = 0;
                 if (analyser) {
                     analyser.getByteFrequencyData(dataArray);
                 }
                 for(var i =0; i<dataArray.length; i++) {
                     var c = dataArray[orderArray[i]];
-                    // console.log(c);
                     var shadowVal = Math.round(easing.linear(c/FRAME, c, -8, 28, FRAME));
 
-
                     if (shadowVal > 0) {
-                        // gsap.to(soundItems[i], 0.01, {
-                        //     boxShadow: `${shadowVal}px ${shadowVal}px ${shadowVal+5}px #cbced1,
-                        //         -${shadowVal}px -${shadowVal}px ${shadowVal+5}px #ffffff`,
-                        // });
                         soundItems[i].style.boxShadow = `${shadowVal}px ${shadowVal}px ${shadowVal+5}px #cbced1,
                                  -${shadowVal}px -${shadowVal}px ${shadowVal+5}px #ffffff`;
                     } else {
                         shadowVal = Math.abs(shadowVal);
-                        // gsap.to(soundItems[i], 0.01, {
-                        //     boxShadow: `inset ${shadowVal}px ${shadowVal}px ${shadowVal}px #cbced1,
-                        //         inset -${shadowVal}px -${shadowVal}px ${shadowVal}px #ffffff`,
-                        // });
                         soundItems[i].style.boxShadow = `inset ${shadowVal}px ${shadowVal}px ${shadowVal}px #cbced1,
                                 inset -${shadowVal}px -${shadowVal}px ${shadowVal}px #ffffff`
                     }
-
-                    
                 }
                 rAF = requestAnimationFrame(animation);
             }
@@ -136,7 +119,7 @@ export default Vue.extend({
     /* padding: 60px 35px 35px 35px; */
     border-radius: 50%;
     background: #ecf0f3;
-    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff;
+    /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff; */
     /* box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #ffffff; */
 }
 

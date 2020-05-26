@@ -2,77 +2,136 @@
     <div class="yourday">
         <span>"How was your day?"</span>
         <div class='img-container'>
-            <img src="@/assets/congal1/happy.png" class="happy"/>
-            <img src="@/assets/congal1/comfortable.png" class="comfortable"/>
-            <img src="@/assets/congal1/angry.png" class="angry"/>
-            <img src="@/assets/congal1/worry.png" class="worry"/>
-            <img src="@/assets/congal1/sad.png" class="sad"/>
+            <img src="@/assets/congal1/angry.png" class="angry"
+                ref="emotion" id="emotion0"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/sad.png" class="sad"
+                ref="emotion" id="emotion4"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/comfortable.png" class="comfortable"
+                ref="emotion" id="emotion3"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/worry.png" class="worry"
+                ref="emotion" id="emotion2"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/happy.png" class="happy"
+                ref="emotion" id="emotion1"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
         </div>
     </div>
 </template>
 <script>
-const location = {
-    'happy': {}, 
-    'comfortable': {},
-    'angry': {},
-    'worry': {},
-    'sad': {},
-}
+import { TweenLite } from 'gsap';
 export default {
-    components: {
-    },
     data() {
         return {
-            
-        }
-    },
-    watch: {
-        loadingCount(newVal) {
-            if (newVal >= this.iconImgs.length) {
-                this.start = true;
-            }
+            tweenReturns: [],
+            move: 100,
+            clickEventOccur: false,
         }
     },
     methods: {
-    },
-    mounted() {
-        console.log('mounted');
-        this.imgLoading();
-    },
+        hover: function(e) {
+            const id = e.target.id;
+            const number = parseInt(String(id).charAt(id.length-1));
+            const distance = 100;
+            var that = this;
+            var r = 72 * (number) * (Math.PI*2 / 360);
+            TweenLite.to(e.target, 1, {
+                transform: 'translate(' + Math.cos(r) * distance + 'px, '
+                    + Math.sin(r) * distance + 'px)',
+                onComplete: function() {
+                    that.dimOthers(number);
+                }
+            });
+        },
+        dimOthers: function(num) {
+            var emotions = this.$refs.emotion;
+        },
+        mouseOut: function(e) {
+            if (this.clickEventOccur) return;
+            TweenLite.to(e.target, 1, {
+                transform: 'translate(0, 0)'
+            });
+        },
+        click: function(e) {
+            this.clickEventOccur = true;
+            var router = this.$router;
+            TweenLite.to(e.target, 1, {
+                scale: 0,
+                onComplete: function() {
+                    router.push({name: 'emotions', params: {select: e.target.className}});
+                }
+            });
+        }
+    }
 }
 </script>
 <style>
-.menuBtn {
-    position: absolute;
-    top: 50px;
-    right: 50px;
-}
-
 .yourday {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: 1440px;
     display: flex;
     flex-direction: column;
+    flex: 8;
     align-items: center;
-    justify-content: center;
 }
 
 .yourday > span {
+    flex: 1;
     font-size: 72px;
-    /* width: 653px; */
+    margin-top: 159px;
     height: 94px;
     font-family: Futura;
     font-size: 72px;
     font-weight: 500;
     text-align: center;
     color: #000000;
-    /* outline: 1px solid black; */
 }
 
-@media (min-width: 800px)
-{
+.yourday > .img-container {
+    flex: 9;
+    width: 1440px;
 }
 
+.comfortable {
+    position: absolute;
+    left: 476px;
+    top: 393px;
+}
+
+.sad {
+    position: absolute;
+    left: 618px;
+    top: 347px;
+}
+
+.angry {
+    position: absolute;
+    left: 731px;
+    top: 381px;
+}
+
+.worry {
+    position: absolute;
+    left: 436px;
+    top: 559px;
+}
+
+.happy {
+    position: absolute;
+    left: 650px;
+    top: 589px;
+}
 </style>
 

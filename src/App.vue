@@ -42,6 +42,10 @@ export default {
   font-family: NotoSans_Regular;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
   /* text-align: center; */
   /* color: #2c3e50; */
 }
@@ -57,6 +61,7 @@ export default {
 }
 
 header {
+  flex: 1;
   display: flex;
   width: 1024px;
   justify-content: flex-end;
@@ -64,6 +69,10 @@ header {
 
 header > a {
   margin: 0 10px 10px;
+}
+
+#app > span {
+  flex: 1;
 }
 
 </style>
