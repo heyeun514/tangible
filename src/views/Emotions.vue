@@ -1,23 +1,22 @@
 <template>
-    <div class="emotions-container">
-    </div>
+    <div class="emotions-container" ref="emotions"></div>
 </template>
 <script>
 import Matter from "matter-js";
 const EMOTION = {
     ANGRY: 0,
     HAPPY: 1,
-    WORRY: 2,
+    SAD: 2,
     COMF: 3,
     WORRY: 4,
 };
 
 const PATH = [
-    '@/assets/congal1/angry.png',
-    '@/assets/congal1/happy.png',
-    '@/assets/congal1/worry.png',
-    '@/assets/congal1/comfortable.png',
-    '@/assets/congal1/worry.png',
+    'angry',
+    'happy',
+    'worry',
+    'comfortable',
+    'worry',
 ]
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -28,18 +27,20 @@ export default {
     props: ['select'],
     data() {
         return {
+            imgResource: [],
+            finishLoad: false,
             float: [
                 EMOTION.ANGRY,
                 EMOTION.HAPPY,
                 EMOTION.ANGRY,
-                EMOTION.CONF,
-                EMOTION.CONF,
-                EMOTION.CONF,
+                EMOTION.COMF,
+                EMOTION.COMF,
+                EMOTION.COMF,
                 EMOTION.HAPPY,
                 EMOTION.HAPPY,
-                EMOTION.SORRY,
-                EMOTION.SORRY,
-                EMOTION.SORRY,
+                EMOTION.SAD,
+                EMOTION.SAD,
+                EMOTION.SAD,
                 EMOTION.WORRY,
                 EMOTION.WORRY,
                 EMOTION.HAPPY,
@@ -48,43 +49,78 @@ export default {
             ],
         }
     },
+    watch: {
+        finishLoad(newVal) {
+            console.log('newVal', newVal);
+            if (newVal) {
+                this.init(this.$refs.emotions,
+                    Matter.Engine.create(),
+                    Matter.Runner.create(),
+                );
+            }
+            
+        }
+    },
     methods: {
         init: function(parent, engine, runner) {
-            parent.width = innerWidth;
-            parent.height = innerHeight;
-            // const ctx = canvas.getContext('2d');
-            const Bodies = Matter.Bodies;
-            const World = Matter.World;
-            const render = Matter.Render.create({
-                element: parent,
-                engine,
-                options: {
-                    width: innerWidth, 
-                    height: innerHeight,
-                    wireframes: false,
-                    bakcground: 'transparent'
-                }
-            });
+            var Engine = Matter.Engine,
+            Render = Matter.Render,
+            World = Matter.World,
+            Bodies = Matter.Bodies;
+     
+ 
+            var render = Render.create({
+                            element: parent,
+                            engine: engine,
+                            options: {
+                                width: innerWidth,
+                                height: innerHeight,
+                                wireframes: false
+                            }
+                        });
 
-            this.float.map((value) => {
-                console.log(value);
-                // getRandomInt(0, innerWidth)
-                this.createItem(getRandomInt(0, innerWidth),
-                                getRandomInt(0, innerHeight),
-                                random);
+            var items = [];
+            this.float.map((val) => {
+                console.log('v', val);
+                items.push(this.createItem(getRandomInt(0, innerWidth), getRandomInt(0, innerHeight), val));
             });
+ 
+            World.add(engine.world, items);
+            
+            Engine.run(engine);
+            Render.run(render);
+        
         },
         createItem: function(x, y, type) {
+            // console.log(type);
+            console.log(this.imgResource[type]);
+            const Bodies = Matter.Bodies;
             const shape = shape || 'circle';
-            Bodies.circle(x, y, )
+            return Bodies.circle(x, y, 10, {
+                render: {
+                    sprite: {
+                        // texture: this.imgResource[type],
+                    }
+                }
+            })
+        },
+        imageLoad: function() {
+            console.log('imgLoad');
+            var that = this;
+            PATH.map((p) => {
+                var img = new Image();
+                img.onload = function() {
+                    that.imgResource.push(img);
+                    that.finishLoad = true;
+                }
+                img.src = require(`../assets/congal1/${p}.png`);
+            });
         }
     },
     mounted() {
         console.log(this.select);
-        this.init(this.$refs.emotions,
-            Matter.Engine.create(),
-            Matter.Runner.create(),
-        );
+        this.imageLoad();
+        
     },
 }
 </script>

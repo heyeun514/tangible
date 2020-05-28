@@ -198,13 +198,11 @@ export default {
 
             // keep the mouse in sync with rendering
             render.mouse = mouse;
-
             // // fit the render viewport to the scene
             // Render.lookAt(render, {
             //     min: { x: 0, y: 0 },
             //     max: { x: 800, y: 600 }
             // });
-
             World.add(world, stack);
 
             Engine.run(engine);
