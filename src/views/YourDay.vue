@@ -31,7 +31,8 @@
     </div>
 </template>
 <script>
-import { TweenLite } from 'gsap';
+// import { TweenLite } from 'gsap';
+import { TweenLite } from '../utils/gsap';
 export default {
     data() {
         return {

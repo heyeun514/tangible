@@ -63,11 +63,15 @@ export default {
     },
     methods: {
         init: function(parent, engine, runner) {
+
+            // const w = 
+            // const h = 
             var Engine = Matter.Engine,
             Render = Matter.Render,
             World = Matter.World,
             Bodies = Matter.Bodies;
-     
+
+            
  
             var render = Render.create({
                             element: parent,
@@ -86,6 +90,12 @@ export default {
             });
  
             World.add(engine.world, items);
+            World.add(engine.world, [
+                Bodies.rectangle(innerWidth/2, 0, innerWidth, 10, {isStatic: true}),
+                Bodies.rectangle(innerWidth/2, innerHeight, innerWidth, 10, {isStatic: true}),
+                Bodies.rectangle(innerWidth, innerHeight/2, 10, innerHeight, {isStatic: true}),
+                Bodies.rectangle(0, innerHeight/2, 10, innerHeight, {isStatic: true}),
+            ]);
             
             Engine.run(engine);
             Render.run(render);
@@ -99,7 +109,9 @@ export default {
             return Bodies.circle(x, y, 10, {
                 render: {
                     sprite: {
-                        // texture: this.imgResource[type],
+                        texture: require(`../assets/congal1/${PATH[type]}.png`),
+                        xScale: 0.5,
+                        yScale: 0.5
                     }
                 }
             })
@@ -110,7 +122,7 @@ export default {
             PATH.map((p) => {
                 var img = new Image();
                 img.onload = function() {
-                    that.imgResource.push(img);
+                    that.imgResource.push(img.src);
                     that.finishLoad = true;
                 }
                 img.src = require(`../assets/congal1/${p}.png`);
@@ -125,5 +137,8 @@ export default {
 }
 </script>
 <style>
-
+.emotions-container > canvas {
+    width: 100%;
+    height: 100%;
+}
 </style>
