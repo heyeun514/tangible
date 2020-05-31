@@ -2,7 +2,7 @@
   <div>
     <canvas id="c" ref="c">
     </canvas>
-    <audio ref="music" src="../assets/audio/don'tstop.mp3" controls></audio>
+    <audio ref="music" src="../assets/needed.mp3" controls></audio>
     <button v-on:click="playMusic">play</button>
   </div>
 </template>

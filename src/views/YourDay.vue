@@ -12,7 +12,7 @@
                 @click="click"
                 @mouseover="hover"
                 @mouseout="mouseOut"/>
-            <img src="@/assets/congal1/comfortable.png" class="comfortable"
+            <img src="@/assets/congal1/comfortable.png" class="comf"
                 ref="emotion" id="emotion3"
                 @click="click"
                 @mouseover="hover"
@@ -33,6 +33,14 @@
 <script>
 // import { TweenLite } from 'gsap';
 import { TweenLite } from '../utils/gsap';
+const EMOTION = {
+    'angry': 0,
+    'happy': 1,
+    'sad': 2,
+    'comf': 3,
+    'worry': 4,
+};
+
 export default {
     data() {
         return {
@@ -68,10 +76,11 @@ export default {
         click: function(e) {
             this.clickEventOccur = true;
             var router = this.$router;
+            console.log(e.target.className)
             TweenLite.to(e.target, 1, {
                 scale: 0,
                 onComplete: function() {
-                    router.push({name: 'emotions', params: {select: e.target.className}});
+                    router.push({name: 'emotions', params: {select: EMOTION[e.target.className]}});
                 }
             });
         }
@@ -105,7 +114,7 @@ export default {
     width: 1440px;
 }
 
-.comfortable {
+.comf {
     position: absolute;
     left: 476px;
     top: 393px;
