@@ -6,8 +6,8 @@
             v-on:click="push"
             class="sound-item">
         </div>
-        <audio ref="music" src="../assets/needed.mp3" controls></audio>
-        <div class="playBtn" v-on:click="playMusic">play</div>
+        <audio ref="music" src="../assets/audio/needed.mp3" controls></audio>
+        <button class="playBtn" v-on:click="playMusic">play</button>
     </div>
 </template>
 <script>
@@ -80,25 +80,15 @@ export default Vue.extend({
                 }
                 for(var i =0; i<dataArray.length; i++) {
                     var c = dataArray[orderArray[i]];
-                    var newVal = easing.linear(c/FRAME, c, -8, 28, FRAME);
+                    var shadowVal = Math.round(easing.linear(c/FRAME, c, -8, 28, FRAME));
 
-                    if (shadowVal[i] < newVal) {
-                        shadowVal[i] = newVal;
-                    } else if (shadowVal[i] > -8) {
-                        shadowVal[i]--;
-                    }
-
-                    var sv = shadowVal[i];
-                    if (i == 10) console.log(sv);
-                    if (sv == -8) {
-                        soundItems[i].style.boxShadow = '';
-                    } else if (sv > 0) {
-                        soundItems[i].style.boxShadow = `${sv}px ${sv}px ${sv+5}px #cbced1,
-                                 -${sv}px -${sv}px ${sv+5}px #ffffff`;
-                    } else if (sv < 0) {
-                        sv = Math.abs(sv);
-                        soundItems[i].style.boxShadow = `inset ${sv}px ${sv}px ${sv}px #cbced1,
-                                inset -${sv}px -${sv}px ${sv}px #ffffff`
+                    if (shadowVal > 0) {
+                        soundItems[i].style.boxShadow = `${shadowVal}px ${shadowVal}px ${shadowVal+5}px #cbced1,
+                                 -${shadowVal}px -${shadowVal}px ${shadowVal+5}px #ffffff`;
+                    } else {
+                        shadowVal = Math.abs(shadowVal);
+                        soundItems[i].style.boxShadow = `inset ${shadowVal}px ${shadowVal}px ${shadowVal}px #cbced1,
+                                inset -${shadowVal}px -${shadowVal}px ${shadowVal}px #ffffff`
                     }
                 }
                 rAF = requestAnimationFrame(animation);
@@ -136,7 +126,7 @@ export default Vue.extend({
     /* padding: 60px 35px 35px 35px; */
     border-radius: 50%;
     background: #ecf0f3;
-    /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff;/*
+    /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff; */
     /* box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #ffffff; */
 }
 

@@ -1,162 +1,138 @@
 <template>
     <div class="yourday">
-        <button class='menuBtn'>menu</button>
         <span>"How was your day?"</span>
-        <div class="iconContainer">
-            <EmotionSelector 
-                v-for="(item, index) in emotionTextList"
-                v-bind:clickItem="clickEmotion"
-                v-bind:start="start"
-                v-bind:index="index"
-                v-bind:key="index"
-                v-bind:textList="item"
-                v-bind:defaultText="item[0]"
-                v-bind:colorList="emotionColors[index]"
-                v-bind:imgCanvas="imgCanvas[index]"></EmotionSelector>
-        </div>
-        <div class="emotionContainer">
-        <Emotion ref="emotionBuilding"
-                v-show="showEmotion"
-                v-bind:start="start"
-                v-bind:emotionColors="emotionColors"
-                v-bind:imgCanvas="imgCanvas">
-        </Emotion>
+        <div class='img-container'>
+            <img src="@/assets/congal1/angry.png" class="angry"
+                ref="emotion" id="emotion0"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/sad.png" class="sad"
+                ref="emotion" id="emotion4"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/comfortable.png" class="comfortable"
+                ref="emotion" id="emotion3"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/worry.png" class="worry"
+                ref="emotion" id="emotion2"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
+            <img src="@/assets/congal1/happy.png" class="happy"
+                ref="emotion" id="emotion1"
+                @click="click"
+                @mouseover="hover"
+                @mouseout="mouseOut"/>
         </div>
     </div>
 </template>
 <script>
-import Emotion from '@/components/Emotion';
-import EmotionSelector from '@/components/EmotionSelector'
+// import { TweenLite } from 'gsap';
+import { TweenLite } from '../utils/gsap';
 export default {
-    components: {
-        Emotion,
-        EmotionSelector
-    },
     data() {
         return {
-            iconImgs: [
-                'happy.png',
-                'circle.png',
-                'anger.png',
-                'calm.png',
-                'complex.png',
-            ],
-            imgCanvas: [],
-            loadingCount: 0,
-            start: false,
-            emotionTextList: [
-                ['Happy', 'Enthusiastic', 'Exciting', 'Contented', 'Joyful'],
-                ['Sad', 'Sick', 'Lonely', 'Gloomy', 'Depressed'],
-                ['Angry', 'Mad', 'Annoying', 'Irritating', 'Unsatisfactory'],
-                ['Comfortable', 'Calm', 'Peaceful', 'Boring', 'Serene'],
-                ['Worried', 'Nervous', 'Thoughtful', 'Restless', 'Anxious']
-            ],
-            emotionColors: [
-                ['#FB927E', '#FCA383', '#FCB387', '#FEC68D', '#FFD592'],
-                ['#C8ABDB', '#BCB3E4', '#B1BAEC', '#A7C1F3', '#9BC9FC'],
-                ['#650E02', '#731003', '#821303', '#901503', '#9E1704'],
-                ['#8EE3CA', '#9CE4C2', '#AAE4BA', '#BAE5B1', '#C8E6A9'],
-                ['#3A2F45', '#3D384F', '#41425B', '#454C67', '#485672']
-            ],
-            showEmotion: false,
-        }
-    },
-    watch: {
-        loadingCount(newVal) {
-            // console.log('loadingCount ', newVal);
-            if (newVal >= this.iconImgs.length) {
-                this.start = true;
-            }
+            tweenReturns: [],
+            move: 100,
+            clickEventOccur: false,
         }
     },
     methods: {
-        imgLoading() {
-            for(var i =0; i<this.iconImgs.length; i++) {
-                this.getImageSrc(this.iconImgs[i]);
-            }
-        },
-        getImageSrc(fileName) {
-            this.imgCanvas.push({
-                fileName,
-                canvas: document.createElement('canvas')
+        hover: function(e) {
+            const id = e.target.id;
+            const number = parseInt(String(id).charAt(id.length-1));
+            const distance = 100;
+            var that = this;
+            var r = 72 * (number) * (Math.PI*2 / 360);
+            TweenLite.to(e.target, 1, {
+                transform: 'translate(' + Math.cos(r) * distance + 'px, '
+                    + Math.sin(r) * distance + 'px)',
+                onComplete: function() {
+                    that.dimOthers(number);
+                }
             });
-            var idx = this.imgCanvas.length-1;
-            var img = document.createElement('img');
-            var tempCanvas = this.imgCanvas[idx].canvas;
-            var ctx = tempCanvas.getContext('2d');
-            var that = this;
-            img.onload = function() {
-                // console.log('image load', img.width, img.height, img);
-                tempCanvas.width = img.width;
-                tempCanvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-                that.loadingCount++;
-            }
-            img.src = require(`@/assets/${fileName}`);
         },
-        clickEmotion(data) {
-            console.log('click emotion');
-            this.showEmotion = true;
-            var location = window.innerHeight;
-            if (this.showEmotion)
-                window.scrollTo({top: location, behavior: 'smooth'});
-            var that = this;
-            setTimeout(() => {
-                this.$refs.emotionBuilding.addItem(data.index, data.color);
-            }, 500);
+        dimOthers: function(num) {
+            var emotions = this.$refs.emotion;
+        },
+        mouseOut: function(e) {
+            if (this.clickEventOccur) return;
+            TweenLite.to(e.target, 1, {
+                transform: 'translate(0, 0)'
+            });
+        },
+        click: function(e) {
+            this.clickEventOccur = true;
+            var router = this.$router;
+            TweenLite.to(e.target, 1, {
+                scale: 0,
+                onComplete: function() {
+                    router.push({name: 'emotions', params: {select: e.target.className}});
+                }
+            });
         }
-    },
-    mounted() {
-        console.log('mounted');
-        this.imgLoading();
-    },
+    }
 }
 </script>
 <style>
-.menuBtn {
-    position: absolute;
-    top: 50px;
-    right: 50px;
-}
-
 .yourday {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: 1440px;
     display: flex;
     flex-direction: column;
+    flex: 8;
     align-items: center;
-    justify-content: center;
 }
 
 .yourday > span {
+    flex: 1;
     font-size: 72px;
-    margin-bottom: 124px;
-    /* flex: 1; */
+    margin-top: 159px;
+    height: 94px;
+    font-family: Futura;
+    font-size: 72px;
+    font-weight: 500;
+    text-align: center;
+    color: #000000;
 }
 
-.iconContainer {
-    /* position: absolute; */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
+.yourday > .img-container {
+    flex: 9;
+    width: 1440px;
 }
 
-@media (min-width: 800px)
-{
-    .iconContainer {
-        width: 800px;
-    }
-}
-
-
-.emotionContainer {
+.comfortable {
     position: absolute;
-    top: 100%;
-    width: 100%;
-    height: 100%;
-    /* flex: 4; */
+    left: 476px;
+    top: 393px;
+}
+
+.sad {
+    position: absolute;
+    left: 618px;
+    top: 347px;
+}
+
+.angry {
+    position: absolute;
+    left: 731px;
+    top: 381px;
+}
+
+.worry {
+    position: absolute;
+    left: 436px;
+    top: 559px;
+}
+
+.happy {
+    position: absolute;
+    left: 650px;
+    top: 589px;
 }
 </style>
 
