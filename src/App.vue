@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header>
+    <header class="item">
       <router-link
         v-bind:class="`project ${select == 0 ? 'select': ''}`"
         :to="{path: 'project'}"
@@ -10,8 +10,10 @@
         :to="{path: 'about'}"
       >ABOUT</router-link>
     </header>
-    <span>NINE FLOOR</span>
-    <router-view></router-view>
+    <span class="item">NINE FLOOR</span>
+    <div class="item container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -38,6 +40,16 @@ export default {
 </script>
 
 <style>
+body {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
 #app {
   font-family: NotoSans_Regular;
   -webkit-font-smoothing: antialiased;
@@ -45,6 +57,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 1440px;
+  height: 100%;
+  /* height: 1000px; */
   /* justify-content: center; */
   /* text-align: center; */
   /* color: #2c3e50; */
@@ -60,10 +75,13 @@ export default {
   src: url('./assets/fonts/Futura Medium.otf');
 }
 
+.item {
+  width: 100%;
+}
+
 header {
-  flex: 1;
+  flex: 0;
   display: flex;
-  width: 1024px;
   justify-content: flex-end;
 }
 
@@ -72,7 +90,13 @@ header > a {
 }
 
 #app > span {
-  flex: 1;
+  flex-grow: 0;
+  font-size: 30px;
+  text-align: center;
+}
+
+#app > .container {
+  flex-grow: 1;
 }
 
 </style>

@@ -90,15 +90,15 @@ export default {
 <style>
 .yourday {
     position: relative;
-    width: 1440px;
     display: flex;
     flex-direction: column;
-    flex: 8;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .yourday > span {
-    flex: 1;
+    flex: 0;
     font-size: 72px;
     margin-top: 159px;
     height: 94px;
@@ -110,8 +110,8 @@ export default {
 }
 
 .yourday > .img-container {
-    flex: 9;
-    width: 1440px;
+    flex: 1;
+    width: 100%;
 }
 
 .comf {

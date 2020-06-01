@@ -20,6 +20,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   width: 1024px;
+  flex: 1;
 }
 
 .select {

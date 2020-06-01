@@ -84,8 +84,8 @@ export default {
                             element: parent,
                             engine: engine,
                             options: {
-                                width: innerWidth,
-                                height: innerHeight,
+                                width: this.$refs.emotions.clientWidth,
+                                height: this.$refs.emotions.clientHeight,
                                 wireframes: false,
                                 background: 'transparent',
                             }
@@ -157,11 +157,16 @@ export default {
                 
             });
 
+            //sides
             World.add(engine.world, [
-                Bodies.rectangle(innerWidth/2, 0, innerWidth, 50, {isStatic: true}),
-                Bodies.rectangle(innerWidth/2, innerHeight, innerWidth, 50, {isStatic: true}),
-                Bodies.rectangle(innerWidth, innerHeight/2, 50, innerHeight, {isStatic: true}),
-                Bodies.rectangle(0, innerHeight/2, 50, innerHeight, {isStatic: true}),
+                Bodies.rectangle(innerWidth/2, 0, innerWidth, 50,
+                    {isStatic: true, render: {fillStyle: 'white'}}),
+                Bodies.rectangle(innerWidth/2, innerHeight, innerWidth, 50,
+                    {isStatic: true, render: {fillStyle: 'white'}}),
+                Bodies.rectangle(innerWidth, innerHeight/2, 50, innerHeight,
+                    {isStatic: true, render: {fillStyle: 'white'}}),
+                Bodies.rectangle(0, innerHeight/2, 50, innerHeight,
+                    {isStatic: true, render: {fillStyle: 'white'}}),
             ]);
             
             World.add(engine.world, items);
@@ -248,8 +253,12 @@ export default {
 }
 </script>
 <style>
-.emotions-container > canvas {
-    width: 100%;
+.emotions-container {
     height: 100%;
+    width: 100%;
+}
+.emotions-container > canvas {
+    /* width: 100%; */
+    /* height: 100%; */
 }
 </style>
