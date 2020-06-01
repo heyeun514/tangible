@@ -1,6 +1,8 @@
 <template>
   <div class="home-container">
     <Cong title="how was your day" path="yourDay"></Cong>
+    <Cong title="neumorphism" path="sound2"></Cong>
+    <Cong title="fractal" path="fractal"></Cong>
   </div>
 </template>
 <script>
@@ -18,8 +20,8 @@ export default {
 .home-container {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  width: 1024px;
+  /* flex-direction: column; */
+  /* width: 1024px; */
   flex: 1;
 }
 
@@ -39,11 +41,6 @@ export default {
   }
 }
 
-.cong-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
 .title {
   font-size: 100px;
 }

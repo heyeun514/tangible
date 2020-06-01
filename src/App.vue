@@ -3,12 +3,10 @@
     <header class="item">
       <router-link
         v-bind:class="`project ${select == 0 ? 'select': ''}`"
-        :to="{path: 'project'}"
-      >PROJECTS</router-link>
+        :to="{path: 'project'}">PROJECTS</router-link>
       <router-link
         v-bind:class="`about ${select == 1 ? 'select': ''}`"
-        :to="{path: 'about'}"
-      >ABOUT</router-link>
+        :to="{path: 'about'}">ABOUT</router-link>
     </header>
     <span class="item">NINE FLOOR</span>
     <div class="item container">

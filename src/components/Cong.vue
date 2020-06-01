@@ -1,7 +1,8 @@
 <template>
     <div class="cong" v-on:click="movePath">
-        <img src=""/>
-        <span>{{title}}</span>
+        <!-- <img class="thumb" src=""/> -->
+        <div class="thumb"></div>
+        <span class="title">{{title}}</span>
     </div>
 </template>
 <script>
@@ -19,17 +20,20 @@ export default {
 </script>
 <style>
 .cong {
-    width: 500px;
-    height: 500px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
     outline: 1px solid red;
 }
 
-.cong > img {
-    width: 500px;
-    height: 450px;
-    outline: 1px solid blue;
+.cong > .thumb {
+    flex-grow: 5;
 }
 
-.cong > span {
+.cong > .title {
+    font-size: 30px;
+    flex-grow: 1;
+    text-align: center;
 }
 </style>

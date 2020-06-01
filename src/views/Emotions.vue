@@ -20,9 +20,6 @@ const PATH = [
     'worry',
 ];
 
-const bgColor = [
-
-]
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -111,16 +108,13 @@ export default {
 
                 for (var i = 0; i < bodies.length; i++) {
                     var body = bodies[i];
-                    
                     if (!body.isStatic) {
                         var forceMagnitude = 0.05 * body.mass;
                         Body.applyForce(body, body.position, {
                             x: (forceMagnitude + Common.random() * forceMagnitude) * Common.choose([1, -1]) * 0.3, 
                             y: (forceMagnitude + Common.random() * -forceMagnitude) * Common.choose([1, -1]) * 0.3
                         });
-                        
                     }
-
                 }
             };
 
@@ -173,7 +167,6 @@ export default {
             explosion(engine);
             Engine.run(engine);
             Render.run(render);
-
 
             // add mouse control
             var mouse = Mouse.create(render.canvas),
