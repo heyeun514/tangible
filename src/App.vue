@@ -14,9 +14,7 @@
     </div>
   </div>
 </template>
-
 <script>
-// import Project from './views/Home.vue'
 import decomp from 'poly-decomp';
 import 'pathseg';
 

@@ -24,7 +24,7 @@ export default {
     flex-direction: column;
     width: 300px;
     height: 300px;
-    outline: 1px solid red;
+    outline: 1px solid black;
 }
 
 .cong > .thumb {

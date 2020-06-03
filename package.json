@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "createjs": "^1.0.1",
     "gsap": "^3.2.4",
     "matter-js": "^0.14.2",
     "pathseg": "^1.2.0",

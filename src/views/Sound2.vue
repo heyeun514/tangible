@@ -7,7 +7,6 @@
             class="sound-item">
         </div>
         <audio ref="music" src="../assets/audio/needed.mp3" controls></audio>
-        <button class="playBtn" v-on:click="readyPlay">play</button>
     </div>
 </template>
 <script>
@@ -28,7 +27,7 @@ var rAF;
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+  return Math.floor(Math.random() * (max - min)) + min; //최대값은 제외, 최소값은 포함
 }
 export default Vue.extend({
     methods: {
@@ -42,7 +41,6 @@ export default Vue.extend({
                 }
             },
             readyPlay: function() {
-                console.log('ready');
                 var ready = [];
                 var cnt;
                 for(var i =0; i<128; i++) {
@@ -73,7 +71,7 @@ export default Vue.extend({
                 animation();
                 timeOut = setTimeout(() => {
                     this.playMusic();
-                }, 1000);
+                }, 2000);
             },
             playMusic: function() {
                 if (rAF) cancelAnimationFrame(rAF);
@@ -134,13 +132,18 @@ export default Vue.extend({
                     rAF = requestAnimationFrame(animation);
                 }
                 animation();
+            },
+            handleKey() {
+                this.readyPlay();
             }
     },
     mounted() {
+        document.addEventListener('keydown', this.handleKey);
     },
     beforeDestroy() {
         cancelAnimationFrame(rAF);
         if (timeOut) clearTimeout(timeOut);
+        document.removeEventListener('keydown', this.handleKey);
     }
 });
 </script>
@@ -156,7 +159,7 @@ export default Vue.extend({
 }
 
 .sound2-bg > audio {
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 
 .sound-item {

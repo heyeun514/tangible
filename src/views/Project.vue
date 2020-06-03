@@ -3,6 +3,7 @@
     <Cong title="how was your day" path="yourDay"></Cong>
     <Cong title="neumorphism" path="sound2"></Cong>
     <Cong title="fractal" path="fractal"></Cong>
+    <Cong title="textHome" path="textHome"></Cong>
   </div>
 </template>
 <script>

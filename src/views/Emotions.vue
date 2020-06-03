@@ -31,6 +31,7 @@ export default {
         return {
             imgResource: [],
             finishLoad: false,
+            cardPage: false,
             float: [
                 EMOTION.ANGRY,
                 EMOTION.HAPPY,
@@ -60,7 +61,13 @@ export default {
                     Matter.Runner.create(),
                 );
             }
-            
+        },
+        cardPage(newVal) {
+            if (newVal) {
+                this.$router.push({
+                    name: 'card',
+                });
+            }
         }
     },
     methods: {
@@ -103,9 +110,8 @@ export default {
             });
 
             engine.world.gravity.y = 0;
-            var explosion = function(engine) {
+            var explosion = function(engine) { // explosion
                 var bodies = Composite.allBodies(engine.world);
-
                 for (var i = 0; i < bodies.length; i++) {
                     var body = bodies[i];
                     if (!body.isStatic) {
@@ -123,10 +129,10 @@ export default {
             
             engine.timing.timeScale = 0.3;
             var that = this;
-            //// Frame
+            //// Frame /////
             Events.on(engine, 'afterUpdate', function(event) {
                 counter += 1;
-                // every 6 sec
+                // every 3 sec
                 if (counter >= 60 * 3) {
                     explosion(engine);
                     counter = 0;
@@ -136,7 +142,6 @@ export default {
                     console.log(that.select);
                     newItem = that.createItem(innerWidth/2, innerHeight/2,
                         that.select, bodyOptions, 0.1);
-                    // Body.scale(newItem, 0.5, 0.5);
                     that.float.push(that.select);
                     World.add(engine.world, newItem);
                 }
@@ -144,11 +149,11 @@ export default {
                     newItem.render.sprite.xScale += newItemScale;
                     newItem.render.sprite.yScale += newItemScale;
                 }
+                //// long press /////
                 if (clickedItem) {
                     clickedItem.render.sprite.xScale += newItemScale;
                     clickedItem.render.sprite.yScale += newItemScale;
-                }
-                
+                };
             });
 
             //sides
@@ -180,6 +185,7 @@ export default {
                     }
                 });
             
+            var timeOut;
             Matter.Events.on(mouseConstraint, 'mousedown', function(event) {
                 var bodies = Composite.allBodies(engine.world);
                 var foundPhysics = Matter.Query.point(bodies, event.mouse.position);
@@ -191,6 +197,24 @@ export default {
                         body.render.opacity = 0.5;
                     }
                 });
+                timeOut = setTimeout(() => {
+                    if (timeOut) {
+                        clearTimeout(timeOut);
+                        timeOut = null;
+                    }
+                    that.$router.push({name: 'card',
+                        params: {
+                            type: clickedItem.dataType,
+                            count: that.getTypeCount(clickedItem.dataType, that.float)
+                        }});
+                }, 1000);
+            });
+
+            Matter.Events.on(mouseConstraint, 'mousemove', function() {
+                if (timeOut) {
+                    clearTimeout(timeOut);
+                    timeOut = null;
+                }
             });
 
             Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
@@ -201,10 +225,13 @@ export default {
                     body.render.sprite.yScale = 1;
                 });
                 clickedItem = null;
+                if (timeOut) {
+                    clearTimeout(timeOut);
+                    timeOut = null;
+                }
             });
 
             World.add(engine.world, mouseConstraint);
-
             // keep the mouse in sync with rendering
             render.mouse = mouse;
         },
@@ -226,6 +253,15 @@ export default {
             // console.log(option);
             return Bodies.circle(x, y, 50, option)
         },
+        getTypeCount(type, data) {
+            var c = 0;
+            data.map((val) => {
+                if (val == type) {
+                    c++;
+                }
+            });
+            return c;
+        },
         imageLoad: function() {
             console.log('imgLoad');
             var that = this;
@@ -243,6 +279,9 @@ export default {
         console.log(this.select);
         this.imageLoad();
     },
+    beforeDestroy() {
+        console.log('before destroy');
+    }
 }
 </script>
 <style>
