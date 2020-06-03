@@ -205,7 +205,8 @@ export default {
                     that.$router.push({name: 'card',
                         params: {
                             type: clickedItem.dataType,
-                            count: that.getTypeCount(clickedItem.dataType, that.float)
+                            count: that.getTypeCount(clickedItem.dataType, that.float),
+                            imgSrc: require(`../assets/congal1/${PATH[clickedItem.dataType]}.png`),
                         }});
                 }, 1000);
             });
