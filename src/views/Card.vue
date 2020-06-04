@@ -1,10 +1,11 @@
 <template>
     <div class="card-container" ref="container">
         <span>Your {{emotion}} days are {{count}}days {{emoti}}</span>
-        <img v-for="(val, index) in count"
+        <img v-if="whiteImg.length > 0"
+            v-for="(val, index) in count"
             v-bind:key="index + 'icon'"
             v-bind:style="randomPosition()"
-            v-bind:src="imgSrc"/>
+            v-bind:src="whiteImg"/>
     </div>
 </template>
 <script>
@@ -26,30 +27,71 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
 }
 export default {
-    props: [
-        'type',
-        'count',
-        'imgSrc'
-    ],
+    props: {
+        'type': {
+            type: Number,
+            default: 0,
+        },
+        'count': {
+            type: Number,
+            default: 1,
+        },
+        'imgSrc': {
+            type: String,
+        }
+    },
     data() {
         return {
             emotion:  '',
             emoti: '',
+            temp: null,
+            whiteImg: '',
+            tempImg: '',
         }
     },
     methods: {
         randomPosition() {
+            var c = this.$refs.container;
             return {
                 position: 'absolute',
-                top: getRandomInt(0, innerHeight),
-                left: getRandomInt(0, innerWidth)
+                top: getRandomInt(100, c.clientHeight-200) + 'px',
+                left: getRandomInt(100, c.clientWidth-200) + 'px'
             }
-        }
+        },
+        changeColorImg() {
+            if (!this.canvas) {
+                this.tempImg = document.createElement('img');
+                this.canvas = document.createElement('canvas');
+                // var c = this.canvas;
+                // c.width = 
+            }
+            this.tempImg.onload = (() => {
+                this.canvas.width = this.tempImg.width;
+                this.canvas.height = this.tempImg.height;
+                var ctx = this.canvas.getContext('2d');
+                ctx.drawImage(this.tempImg, 0, 0);
+                ctx.globalCompositeOperation = 'source-in';
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                this.whiteImg = this.canvas.toDataURL();
+                // console.log(this.whiteImg);
+            }).bind(this);
+            this.tempImg.src = this.imgSrc;
+
+
+            
+
+        },
+        
+
     },
     mounted() {
         console.log(this.type, this.count, this.imgSrc);
+        this.changeColorImg();
         this.emotion = emotionText[this.type];
         this.$refs.container.style.background = colors[this.type];
+
+
     }
 }
 </script>
