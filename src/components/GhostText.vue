@@ -22,6 +22,16 @@ function getRandomColor() {
 }
 export default {
     props: ['text'],
+    data() {
+        return {
+            textLeft: 30,
+            textHeight: 100,
+            textTop: 0,
+            wrap: false,
+            lineNumber: 0,
+            charIndex: [],
+        }
+    },
     watch: {
         text(newVal) {
             console.log(newVal);
@@ -35,11 +45,45 @@ export default {
             createjs.Ticker.addEventListener("tick", stage);
         },
         updateText(text) {
+
+            if (this.wrap) {
+                // 다시 그리고 줄넘김
+                this.charIndex.push(text.length-2);
+                console.log('index', this.charIndex);
+                this.lineNumber++;
+                stage.removeAllChildren();
+                for(var i =0; i<this.lineNumber; i++) {
+                    console.log(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0, this.charIndex[i]+1);
+                    console.log(text.substring(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0,
+                        this.charIndex[i]+1));
+                    var all = new createjs.Text(
+                        text.substring(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0,
+                        this.charIndex[i]+1), "bold 144px CooperBlack", "white");
+                    all.x = 30;
+                    all.y = this.firstCenter - (this.lineNumber-i) * 144/2;
+                    this.textTop = this.firstCenter + 144/2 * this.lineNumber;
+                    stage.addChild(all);
+                }
+                
+                stage.update();
+                this.wrap = false;
+                this.textLeft = 30;
+            }
+
             var char = text[text.length-1];
-            var t = new createjs.Text(char, "bold 80px Futura", "white" );
-            t.x = text.length*40; 
-            t.y = 100;
+            var t = new createjs.Text(char, "bold 144px CooperBlack", "white" );
+            console.log('tl', t.x, t.getMeasuredWidth());
+            
+            
+            
+            t.x = this.textLeft;
+            t.y = this.textTop;
             t.alpha = 1;
+            // if (this.textLeft == 30 && this.lineNumber == 0) this.textLeft += 30;
+            this.textLeft += t.getMeasuredWidth() + 1;
+            this.wrap = (this.textLeft > this.$refs.stage.width - 100 ? true : false)
+
+
             stage.addChild(t);
             const aph = 0.8;
             const dur = 30;
@@ -61,6 +105,8 @@ export default {
         var canvas = this.$refs.stage;
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
+        this.textTop = this.firstCenter = canvas.height / 2 - 144/2;
+        
         this.init();
     },
 }

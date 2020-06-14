@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    <header class="item">
-      <router-link
-        v-bind:class="`project ${select == 0 ? 'select': ''}`"
-        :to="{path: 'project'}">PROJECTS</router-link>
-      <router-link
-        v-bind:class="`about ${select == 1 ? 'select': ''}`"
-        :to="{path: 'about'}">ABOUT</router-link>
+    <header>
+      <span>9th Floor</span>
+      <div class="links">
+        <router-link to="project" tag="div" active-class="active">PROJECTS</router-link>
+        <router-link to="about" tag="div" active-class="active">ABOUT</router-link>
+      </div>
     </header>
-    <span class="item">NINE FLOOR</span>
-    <div class="item container">
+    
+    <div class="app-container">
       <router-view></router-view>
     </div>
   </div>
@@ -68,31 +67,57 @@ body {
 
 @font-face {
   font-family: 'Futura';
-  src: url('./assets/fonts/Futura Medium.otf');
+  src: url('./assets/fonts/Futura Medium.ttf');
 }
 
-.item {
-  width: 100%;
+@font-face {
+  font-family: 'CooperBlack';
+  src: url('./assets/fonts/CooperBlack.ttf');
 }
+
 
 header {
+  width: 100%;
   flex: 0;
   display: flex;
-  justify-content: flex-end;
+  font-family: Futura;
+  margin: 93px 0;
+  justify-content: space-between;
+  height: 46px;
+  align-items: flex-end;
 }
 
-header > a {
-  margin: 0 10px 10px;
+.links {
+  display: flex;
 }
 
-#app > span {
-  flex-grow: 0;
-  font-size: 30px;
+.links > div {
+  margin: 2px 45px;
+  font-size: 12px;
+  width: 96px;
   text-align: center;
 }
 
-#app > .container {
-  flex-grow: 1;
+/*div:active {
+  box-shadow: inset 0 0px 0 white, inset 0 -1px 0 black
+} */
+
+div.active {
+  box-shadow: inset 0 0px 0 white, inset 0 -1px 0 black
+}
+
+header > span {
+  flex-grow: 0;
+  font-size: 36px;
+  text-align: left;
+  font-family: Futura;
+  line-height: 46px;
+  vertical-align: middle;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
 }
 
 </style>

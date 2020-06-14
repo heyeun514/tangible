@@ -1,5 +1,5 @@
 <template>
-    <div class="cong" v-on:click="movePath">
+    <div v-bind:class="'cong ' + containerType" v-on:click="movePath">
         <!-- <img class="thumb" src=""/> -->
         <div class="thumb"></div>
         <span class="title">{{title}}</span>
@@ -7,7 +7,12 @@
 </template>
 <script>
 export default {
-    props: ['title', 'path'],
+    props: ['title', 'path', 'type'],
+    data() {
+        return {
+            containerType: this.type == 0 ? 'wide' : 'normal'
+        }
+    },
     methods: {
         movePath() {
             console.log('path', this.path);
@@ -16,15 +21,27 @@ export default {
             });
         }
     },
+    mounted() {
+        
+    },
 }
 </script>
 <style>
 .cong {
+    
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 300px;
+    height: 276px;
     outline: 1px solid black;
+    margin: 15px;
+}
+
+.wide {
+    width: 582px;
+}
+
+.normal {
+    width: 276px;
 }
 
 .cong > .thumb {

@@ -1,9 +1,10 @@
 <template>
   <div class="home-container">
-    <Cong title="how was your day" path="yourDay"></Cong>
-    <Cong title="neumorphism" path="sound2"></Cong>
-    <Cong title="fractal" path="fractal"></Cong>
-    <Cong title="textHome" path="textHome"></Cong>
+    <Cong title="how was your day" path="yourDay" type="0"></Cong>
+    <Cong title="neumorphism" path="sound2" type="0" ></Cong>
+    <Cong title="fractal" path="fractal" type="0"></Cong>
+    <Cong title="textHome" path="textHome" type="1"></Cong>
+    <Cong title="textHome" path="textHome" type="1"></Cong>
   </div>
 </template>
 <script>
@@ -24,6 +25,7 @@ export default {
   /* flex-direction: column; */
   /* width: 1024px; */
   flex: 1;
+  flex-wrap: wrap;
 }
 
 .select {
