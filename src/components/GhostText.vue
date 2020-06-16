@@ -60,8 +60,8 @@ export default {
                         text.substring(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0,
                         this.charIndex[i]+1), "bold 144px CooperBlack", "white");
                     all.x = 30;
-                    all.y = this.firstCenter - (this.lineNumber-i) * 144/2;
-                    this.textTop = this.firstCenter + 144/2 * this.lineNumber;
+                    all.y = this.firstCenter - (this.lineNumber-i) * 144;
+                    this.textTop = this.firstCenter + 144 * (this.lineNumber-1);
                     stage.addChild(all);
                 }
                 
