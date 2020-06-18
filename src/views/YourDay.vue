@@ -177,32 +177,43 @@ export default {
 
 .comf {
     position: absolute;
-    left: 476px;
-    top: 393px;
+    left: 50%;
+    top: 50%;
+    width: 200px;
+    height: 196px;
+    
 }
 
 .sad {
     position: absolute;
-    left: 618px;
-    top: 347px;
+    left: 50%;
+    top: 50%;
+    width: 291px;
+    height: 191px;
 }
 
 .angry {
     position: absolute;
-    left: 731px;
-    top: 381px;
+    left: 50%;
+    top: 50%;
+    width: 265px;
+    height: 313px;
 }
 
 .worry {
     position: absolute;
-    left: 436px;
-    top: 559px;
+    left: 50%;
+    top: 50%;
+    width: 277px;
+    height: 254px;
 }
 
 .happy {
     position: absolute;
-    left: 650px;
-    top: 589px;
+    left: 50%;
+    top: 50%;
+    width: 227px;
+    height: 269px;
 }
 </style>
 

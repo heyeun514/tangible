@@ -138,9 +138,11 @@ export default Vue.extend({
             }
     },
     mounted() {
+        this.$emit('updateBgStyle', '#ecf0f3');
         document.addEventListener('keydown', this.handleKey);
     },
     beforeDestroy() {
+        this.$emit('updateBgStyle', 'white');
         cancelAnimationFrame(rAF);
         if (timeOut) clearTimeout(timeOut);
         document.removeEventListener('keydown', this.handleKey);

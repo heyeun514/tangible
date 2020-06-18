@@ -33,7 +33,7 @@ export default {
     flex-direction: column;
     height: 276px;
     outline: 1px solid black;
-    margin: 15px;
+    margin: 15px 0;
 }
 
 .wide {

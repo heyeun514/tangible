@@ -21,7 +21,7 @@ export default {
 <style>
 .home-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   /* flex-direction: column; */
   /* width: 1024px; */
   flex: 1;

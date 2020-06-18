@@ -36,10 +36,10 @@ export default {
     this.update = this.updateBgStyle.bind(this);
   },
   methods: {
-    updateBgStyle(mode) {
+    updateBgStyle(mode, bgColor) {
       this.titleStyle = (mode == 'black') ? 'title-black' : 'title-white';
       this.activeStyle = (mode == 'black') ? 'active-black' : 'active-white';
-      document.body.style.backgroundColor = mode;
+      document.body.style.backgroundColor = bgColor || mode;
     }
   },
 }
@@ -63,7 +63,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1440px;
+  width: 1200px;
   height: 100%;
   /* height: 1000px; */
   /* justify-content: center; */
