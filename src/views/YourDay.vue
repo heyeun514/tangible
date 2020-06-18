@@ -47,6 +47,7 @@
 </template>
 <script>
 // import { TweenLite } from 'gsap';
+import Vue from 'vue'
 import { TweenLite } from '../utils/gsap';
 const EMOTION = {
     'angry': 0,
@@ -63,6 +64,9 @@ export default {
             move: 100,
             clickEventOccur: false,
         }
+    },
+    mounted() {
+        // this.$emit('updateBgStyle', 'white');
     },
     methods: {
         hover: function(e) {

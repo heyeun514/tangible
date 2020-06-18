@@ -237,7 +237,7 @@ export default {
             render.mouse = mouse;
         },
         createItem: function(x, y, type, opt, scale) {
-            // console.log(type);
+            console.log(type);
             // console.log(this.imgResource[type]);
             const Bodies = Matter.Bodies;
             const shape = shape || 'circle';

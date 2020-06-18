@@ -7,6 +7,7 @@
 import '../utils/create.js';
 var stage;
 var text = [];
+const FONTS = ['CooperBlack', 'BodoniSvtyTwoITCTT', 'AndaleMono'];
 function getRandomChar() {
 	var c = String.fromCharCode(Math.floor(Math.random()*(90-65+1)) + 65);
 	return c;
@@ -26,10 +27,10 @@ export default {
         return {
             textLeft: 30,
             textHeight: 100,
-            textTop: 0,
             wrap: false,
             lineNumber: 0,
             charIndex: [],
+            font: 'CooperBlack'
         }
     },
     watch: {
@@ -45,44 +46,34 @@ export default {
             createjs.Ticker.addEventListener("tick", stage);
         },
         updateText(text) {
-
+            let totalHeight = (this.lineNumber+1) * 144;
+            let firstLine = this.$refs.stage.clientHeight/2 - totalHeight/2;
+            console.log(this.lineNumber, firstLine);
             if (this.wrap) {
                 // 다시 그리고 줄넘김
                 this.charIndex.push(text.length-2);
                 console.log('index', this.charIndex);
-                this.lineNumber++;
                 stage.removeAllChildren();
                 for(var i =0; i<this.lineNumber; i++) {
-                    console.log(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0, this.charIndex[i]+1);
-                    console.log(text.substring(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0,
-                        this.charIndex[i]+1));
-                    var all = new createjs.Text(
-                        text.substring(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0,
-                        this.charIndex[i]+1), "bold 144px CooperBlack", "white");
+                    var all = new createjs.Text( text.substring(this.charIndex[i-1] ? this.charIndex[i-1]+1 : 0, this.charIndex[i]+1), "bold 144px " + this.font, "white");
                     all.x = 30;
-                    all.y = this.firstCenter - (this.lineNumber-i) * 144;
-                    this.textTop = this.firstCenter + 144 * (this.lineNumber-1);
+                    all.y = firstLine + 144 * i;
+                    console.log('ally', all.y);
                     stage.addChild(all);
                 }
-                
                 stage.update();
                 this.wrap = false;
                 this.textLeft = 30;
             }
 
             var char = text[text.length-1];
-            var t = new createjs.Text(char, "bold 144px CooperBlack", "white" );
-            console.log('tl', t.x, t.getMeasuredWidth());
-            
-            
-            
+            var t = new createjs.Text(char, "bold 144px " + this.font, "white" );
             t.x = this.textLeft;
-            t.y = this.textTop;
+            t.y = firstLine + 144 * this.lineNumber;
             t.alpha = 1;
-            // if (this.textLeft == 30 && this.lineNumber == 0) this.textLeft += 30;
             this.textLeft += t.getMeasuredWidth() + 1;
             this.wrap = (this.textLeft > this.$refs.stage.width - 100 ? true : false)
-
+            if (this.wrap) this.lineNumber++;
 
             stage.addChild(t);
             const aph = 0.8;
@@ -105,8 +96,8 @@ export default {
         var canvas = this.$refs.stage;
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
-        this.textTop = this.firstCenter = canvas.height / 2 - 144/2;
-        
+        this.font = FONTS[Math.floor(Math.random() * 3)];
+        console.log(this.font);
         this.init();
     },
 }

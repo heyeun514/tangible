@@ -17,6 +17,7 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
 routes: [
+    {path: '/', name: 'project', component: Project},
     {path: '/project', name: 'project', component: Project},
     {path: '/yourday', name: 'yourDay', component: YourDay},
     {path: '/sound', name: 'sound', component: Sound},

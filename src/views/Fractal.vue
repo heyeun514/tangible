@@ -168,6 +168,7 @@ export default {
     }
     },
     mounted() {
+        this.$emit('updateBgStyle', 'black');
         var tempCanvas = this.$refs.temp;
         var treeCanvas = this.$refs.treeCanvas;
         var partCanvas = this.$refs.cropGradient;
@@ -189,8 +190,8 @@ export default {
         }
         this.draw();
     },
-    destroyed() {
-        console.log('tree destroy');
+    beforeDestroy() {
+        this.$emit('updateBgStyle', 'white');
         this.init();
     }
 }

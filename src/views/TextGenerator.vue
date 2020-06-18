@@ -23,16 +23,20 @@ export default {
     methods: {
         keyHandler(e) {
             console.log(e.keyCode);
-            this.inputChar = e.key;
-            this.inputText += e.key;
-            this.start = true;
-
-            
+            if (e.keyCode >= 65 && e.keyCode <= 95) {
+                this.inputChar = e.key;
+                this.inputText += e.key;
+                this.start = true;
+            }
         }
     },
     mounted() {
         console.log(this.type);
         document.addEventListener('keydown', this.keyHandler);
+        this.$emit('updateBgStyle', 'black');
+    },
+    beforeDestroy() {
+        this.$emit('updateBgStyle', 'white');
     }
 }
 </script>

@@ -1,19 +1,20 @@
 <template>
   <div id="app">
     <header>
-      <span>9th Floor</span>
+      <span v-bind:class="titleStyle">9th Floor</span>
       <div class="links">
-        <router-link to="project" tag="div" active-class="active">PROJECTS</router-link>
-        <router-link to="about" tag="div" active-class="active">ABOUT</router-link>
+        <router-link to="project" tag="div" v-bind:class="titleStyle" v-bind:active-class="activeStyle">PROJECTS</router-link>
+        <router-link to="about" tag="div"  v-bind:class="titleStyle" v-bind:active-class="activeStyle">ABOUT</router-link>
       </div>
     </header>
     
     <div class="app-container">
-      <router-view></router-view>
+      <router-view v-on:updateBgStyle="updateBgStyle"></router-view>
     </div>
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import decomp from 'poly-decomp';
 import 'pathseg';
 
@@ -22,13 +23,23 @@ export default {
   components: {
     // Home
   },
-  created() {
-    window.decomp = decomp;
-    // this.$router.
-  },
   data() {
     return {
+      titleStyle: 'title-white',
+      activeStyle: 'active-white',
       select: 0,
+      update: null,
+    }
+  },
+  created() {
+    window.decomp = decomp;
+    this.update = this.updateBgStyle.bind(this);
+  },
+  methods: {
+    updateBgStyle(mode) {
+      this.titleStyle = (mode == 'black') ? 'title-black' : 'title-white';
+      this.activeStyle = (mode == 'black') ? 'active-black' : 'active-white';
+      document.body.style.backgroundColor = mode;
     }
   },
 }
@@ -75,6 +86,16 @@ body {
   src: url('./assets/fonts/CooperBlack.ttf');
 }
 
+@font-face {
+  font-family: 'AndaleMono';
+  src: url('./assets/fonts/AndaleMono.ttf');
+}
+
+@font-face {
+  font-family: 'BodoniSvtyTwoITCTT';
+  src: url('./assets/fonts/Bodoni SvtyTwo ITC TT Book.ttf');
+}
+
 
 header {
   width: 100%;
@@ -113,6 +134,22 @@ header > span {
   font-family: Futura;
   line-height: 46px;
   vertical-align: middle;
+}
+
+.title-black {
+  color: white;
+}
+
+.title-white {
+  color: black;
+}
+
+div.active-white{
+  box-shadow: inset 0 0px 0 white, inset 0 -1px 0 black
+}
+
+div.active-black{
+  box-shadow: inset 0 0px 0 black, inset 0 -1px 0 white
 }
 
 .app-container {
