@@ -13,7 +13,7 @@ export default {
     methods: {
         onClick(num) {
             console.log('onClick', num);
-            this.$router.push({name: 'textGenerator', param: {type: num}});
+            this.$router.push({name: 'textGenerator', params: {type: num}});
         }
     }
 }

@@ -1,13 +1,14 @@
 <template>
     <div class="gen-container">
         <div v-if="!start" class="guide">Just type it in! Something funny will popup</div>
-         <GhostText class="stage" v-bind:text="inputText"></GhostText>
+         <GhostText v-if="showCompo(0)" class="stage" v-bind:text="inputText"></GhostText>
+         <MoveText v-if="showCompo(1)" class="stage" v-bind:text="inputText"></MoveText>
     </div>
 </template>
 <script>
 // import '../utils/createjs.js';
 import GhostText from '@/components/GhostText';
-
+import MoveText from '@/components/MoveText';
 
 export default {
     props: ['type'],
@@ -19,6 +20,7 @@ export default {
     },
     components: {
         GhostText,
+        MoveText
     },
     methods: {
         keyHandler(e) {
@@ -28,10 +30,13 @@ export default {
                 this.inputText += e.key;
                 this.start = true;
             }
+        },
+        showCompo(type) {
+            return (this.type == type);
         }
     },
     mounted() {
-        console.log(this.type);
+        console.log('type?', this.type, typeof this.type);
         document.addEventListener('keydown', this.keyHandler);
         this.$emit('updateBgStyle', 'black');
     },
