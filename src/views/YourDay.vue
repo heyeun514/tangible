@@ -95,7 +95,7 @@ export default {
         },
         dimOthers: function(num, dim) {
             var emotions = this.$refs.imgContainer.children;
-            console.log(emotions);
+            // console.log(emotions);
             for(var i=0; i<emotions.length; i++) {
                 if (dim && (emotions[i].id !== 'emotion' + num)) {
                     emotions[i].style.opacity = 0.3;

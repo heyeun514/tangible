@@ -11,6 +11,7 @@ import Thanos from '@/views/Thanos'
 import TextGenerator from '@/views/TextGenerator'
 import TextHome from '@/views/TextHome'
 import Card from '@/views/Card';
+import About from '@/views/About';
 
 
 Vue.use(VueRouter);
@@ -29,6 +30,7 @@ routes: [
     {path: '/thanos', name: 'thanos', componsnt: Thanos, props: true},
     {path: '/textHome', name: 'textHome', component: TextHome},
     {path: '/textGenerator', name: 'textGenerator', component: TextGenerator, props: true},
-    {path: '/card', name: 'card', component: Card, props: true}
+    {path: '/card', name: 'card', component: Card, props: true},
+    {path: '/about', name: 'about', component: About}
     // { path: '/yourday', name: 'yourDay', component:  YourDay}
 ]});
