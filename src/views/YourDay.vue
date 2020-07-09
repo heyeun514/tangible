@@ -49,6 +49,8 @@
 // import { TweenLite } from 'gsap';
 import Vue from 'vue'
 import { TweenLite } from '../utils/gsap';
+import '../utils/CustomEase.min.js';
+
 const EMOTION = {
     'angry': 0,
     'happy': 1,
@@ -130,6 +132,8 @@ export default {
             console.log(em);
             TweenLite.to(t, 1, {
                 scale: 0,
+                opacity: 0,
+                ease: CustomEase.create("custom", "M0,0 C0.132,0.592 0.824,0.076 1,1 "),
                 onComplete: function() {
                     router.push({name: 'emotions', params: {select: EMOTION[em]}});
                 }
