@@ -49,7 +49,7 @@
 // import { TweenLite } from 'gsap';
 import Vue from 'vue'
 import { TweenLite } from '../utils/gsap';
-import '../utils/CustomEase.min.js';
+import '../utils/customEase';
 
 const EMOTION = {
     'angry': 0,
@@ -185,7 +185,7 @@ export default {
     top: 50%;
     width: 200px;
     height: 196px;
-    
+    transform: translate(-50%, -50%);
 }
 
 .sad {

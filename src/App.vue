@@ -17,6 +17,12 @@
 import Vue from 'vue'
 import decomp from 'poly-decomp';
 import 'pathseg';
+import NotoSans from './assets/fonts/NotoSans-Regular.ttf';
+import Futura from './assets/fonts/Futura.ttf';
+import CooperBlack from './assets/fonts/CooperBlack.ttf';
+import AndaleMono from './assets/fonts/AndaleMono.ttf';
+import Bodoni from './assets/fonts/Bodoni.ttf'
+console.log(Futura)
 
 export default {
   name: 'App',
@@ -73,27 +79,27 @@ body {
 
 @font-face {
   font-family: 'NotoSans_Regular';
-  src: url('./assets/fonts/NotoSans-Regular.ttf');
+  src: url('assets/fonts/NotoSans-Regular.ttf');
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url('./assets/fonts/Futura Medium.ttf');
+  src: url('assets/fonts/Futura.ttf');
 }
 
 @font-face {
   font-family: 'CooperBlack';
-  src: url('./assets/fonts/CooperBlack.ttf');
+  src: url('assets/fonts/CooperBlack.ttf');
 }
 
 @font-face {
   font-family: 'AndaleMono';
-  src: url('./assets/fonts/AndaleMono.ttf');
+  src: url('assets/fonts/AndaleMono.ttf');
 }
 
 @font-face {
   font-family: 'BodoniSvtyTwoITCTT';
-  src: url('./assets/fonts/Bodoni SvtyTwo ITC TT Book.ttf');
+  src: url('assets/fonts/Bodoni.ttf');
 }
 
 
