@@ -3,12 +3,14 @@
         <div v-if="!start" class="guide">Just type it in! Something funny will popup</div>
          <GhostText v-if="showCompo(0)" class="stage" v-bind:text="inputText"></GhostText>
          <MoveText v-if="showCompo(1)" class="stage" v-bind:text="inputText"></MoveText>
+         <TempText v-if="showCompo(2)" class="stage" v-bind:text="inputText"></TempText>
     </div>
 </template>
 <script>
 // import '../utils/createjs.js';
 import GhostText from '@/components/GhostText';
 import MoveText from '@/components/MoveText';
+import TempText from '@/components/TempText';
 
 export default {
     props: ['type'],
@@ -20,7 +22,8 @@ export default {
     },
     components: {
         GhostText,
-        MoveText
+        MoveText,
+        TempText
     },
     methods: {
         keyHandler(e) {

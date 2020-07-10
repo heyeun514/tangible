@@ -12,6 +12,7 @@ import TextGenerator from '@/views/TextGenerator'
 import TextHome from '@/views/TextHome'
 import Card from '@/views/Card';
 import About from '@/views/About';
+import TempText from '@/components/TempText';
 
 
 Vue.use(VueRouter);
@@ -31,6 +32,7 @@ routes: [
     {path: '/textHome', name: 'textHome', component: TextHome},
     {path: '/textGenerator', name: 'textGenerator', component: TextGenerator, props: true},
     {path: '/card', name: 'card', component: Card, props: true},
-    {path: '/about', name: 'about', component: About}
+    {path: '/about', name: 'about', component: About},
+    {path: '/tempText', name: 'tempText', component: TempText}
     // { path: '/yourday', name: 'yourDay', component:  YourDay}
 ]});
